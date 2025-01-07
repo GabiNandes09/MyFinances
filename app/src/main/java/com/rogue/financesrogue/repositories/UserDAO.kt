@@ -71,7 +71,7 @@ class UserDAO(context: Context) : IRepository {
         }
     }
 
-    override fun deleteOne(id: Int) {
+    override fun deleteOneById(id: Int) {
         TODO("Not yet implemented")
     }
 }
