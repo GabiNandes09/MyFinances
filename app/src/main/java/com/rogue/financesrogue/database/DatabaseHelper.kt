@@ -8,7 +8,7 @@ import java.io.IOException
 class DatabaseHelper(private val context: Context) : SQLiteOpenHelper(context, "loja.db", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase?) {
-        executeSqlScript(db, "create_tables.sql")
+        executeSqlScript(db, "sql/create_tables.sql")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {

@@ -1,7 +1,7 @@
 package com.rogue.financesrogue.repositories
 
+import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.util.Log
 import com.rogue.financesrogue.database.DatabaseHelper
 import com.rogue.financesrogue.interfaces.IRepository
@@ -17,7 +17,7 @@ class UserDAO(context: Context) : IRepository {
         try {
             val cursor = db.readableDatabase.rawQuery(sql, null)
             cursor.use { c ->
-                while (c.moveToNext()){
+                while (c.moveToNext()) {
                     val user = User(
                         c.getInt(c.getColumnIndexOrThrow("UserId")),
                         c.getString(c.getColumnIndexOrThrow("Username")),
@@ -27,32 +27,48 @@ class UserDAO(context: Context) : IRepository {
                     result.add(user)
                 }
             }
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Log.i("Banco de dados", "Erro ao buscar todos os usuários ${e.printStackTrace()}")
-        } finally {
-            
         }
         return result
     }
 
-    override fun selectById(id: Int): Any {
+    override fun selectById(id: Int): Any? {
         val sql = "SELECT * FROM USER WHERE UserId = ?;"
 
         try {
             val cursor = db.readableDatabase.rawQuery(sql, arrayOf(id.toString()))
-            if (cursor != null){
-                return User(
-                    cursor.getInt(cursor.getColumnIndexOrThrow("UserId")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("Username")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("Password")),
-                    cursor.getDouble(cursor.getColumnIndexOrThrow("Salary"))
-                )
+            cursor.use { c ->
+                if (c != null) {
+                    return User(
+                        c.getInt(c.getColumnIndexOrThrow("UserId")),
+                        c.getString(c.getColumnIndexOrThrow("Username")),
+                        c.getString(c.getColumnIndexOrThrow("Password")),
+                        c.getDouble(c.getColumnIndexOrThrow("Salary"))
+                    )
+                }
             }
+        } catch (e: Exception) {
+            Log.i("Banco de dados", "Erro ao buscar User com ID $id")
         }
+        return null
     }
 
     override fun insertOne(any: Any) {
-        TODO("Not yet implemented")
+        val user = any as User
+        val values = ContentValues().apply {
+            put("Username", user.username)
+            put("Password", user.password)
+            put("salary", user.salary)
+        }
+
+        db.writableDatabase.insert("USER", null, values).also {
+            if (it >= 0) {
+                Log.i("Banco de dados", "Usuário ${user.username} inserido com sucesso!")
+            } else {
+                Log.i("Banco de dados", "Erro ao inserir ${user.username}")
+            }
+        }
     }
 
     override fun deleteOne(id: Int) {
