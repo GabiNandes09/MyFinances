@@ -13,7 +13,7 @@ class DatabaseHelper(private val context: Context) : SQLiteOpenHelper(context, "
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         for (version in (oldVersion + 1)..newVersion) {
-            val fileName = "upgrade_v${version - 1}_to_v$version.sql"
+            val fileName = "sql/upgrade/upgrade_v${version - 1}_to_v$version.sql"
             executeSqlScript(db, fileName)
         }
     }
