@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.rogue.financesrogue.model.User
 import com.rogue.financesrogue.repositories.UserDAO
+import com.rogue.financesrogue.ui.screen.LoginUI
 import com.rogue.financesrogue.ui.theme.MyFinancesTheme
 
 class MainActivity : ComponentActivity() {
@@ -41,7 +42,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyFinancesTheme {
-                Greeting()
+                LoginUI()
             }
         }
     }
