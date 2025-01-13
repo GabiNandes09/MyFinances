@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.rogue.financesrogue.ui.screen.main.componentes.CategoriesListResume
+import com.rogue.financesrogue.ui.screen.main.componentes.PersonListResume
 import com.rogue.financesrogue.ui.screen.main.componentes.ProfileHeader
 
 //V1 - 09/01/25
@@ -21,6 +22,7 @@ fun Main() {
         ) {
             ProfileHeader()
             CategoriesListResume()
+            PersonListResume()
         }
     }
 }
