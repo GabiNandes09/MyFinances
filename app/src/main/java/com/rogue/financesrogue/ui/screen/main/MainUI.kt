@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.rogue.financesrogue.ui.screen.main.componentes.CategoriesListResume
 import com.rogue.financesrogue.ui.screen.main.componentes.FinancesResume
+import com.rogue.financesrogue.ui.screen.main.componentes.MainBottomBar
 import com.rogue.financesrogue.ui.screen.main.componentes.PersonListResume
 import com.rogue.financesrogue.ui.screen.main.componentes.ProfileHeader
 
@@ -19,7 +20,7 @@ fun Main() {
     Scaffold(
         containerColor = Color.Gray,
         bottomBar = {
-
+            MainBottomBar()
         }
     ) { paddingValues ->
         LazyColumn(
