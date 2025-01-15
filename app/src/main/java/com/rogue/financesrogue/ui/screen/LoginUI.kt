@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.rogue.financesrogue.Nav
 import com.rogue.financesrogue.R
 
 @Composable
@@ -96,7 +97,7 @@ fun LoginUI() {
                 )
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { Nav.navController?.navigate("main") },
                 modifier = Modifier
                     .width(300.dp)
                     .height(60.dp),

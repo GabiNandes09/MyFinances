@@ -1,6 +1,5 @@
 package com.rogue.financesrogue.ui.screen.main
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
@@ -16,7 +15,7 @@ import com.rogue.financesrogue.ui.screen.main.componentes.ProfileHeader
 
 //V1 - 09/01/25
 @Composable
-fun Main() {
+fun MainUI() {
     Scaffold(
         containerColor = Color.Gray,
         bottomBar = {
@@ -37,5 +36,5 @@ fun Main() {
 @Preview
 @Composable
 private fun MainPrev() {
-    Main()
+    MainUI()
 }

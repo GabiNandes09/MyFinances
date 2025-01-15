@@ -31,9 +31,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.rogue.financesrogue.model.User
 import com.rogue.financesrogue.repositories.UserDAO
 import com.rogue.financesrogue.ui.screen.LoginUI
+import com.rogue.financesrogue.ui.screen.main.MainUI
 import com.rogue.financesrogue.ui.theme.MyFinancesTheme
 
 class MainActivity : ComponentActivity() {
@@ -42,7 +46,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyFinancesTheme {
-                LoginUI()
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "login") {
+                    composable("login") {
+                        LoginUI()
+                    }
+                    composable("main") {
+                        MainUI()
+                    }
+                }
+                Nav.navController = navController
             }
         }
     }
@@ -113,7 +126,7 @@ fun Greeting() {
             }
 
             LazyColumn {
-                items(list){item ->
+                items(list) { item ->
                     val user = item as User
                     Item(user)
                 }
@@ -129,7 +142,7 @@ fun Item(user: User) {
             .fillMaxWidth()
             .background(Color.White)
             .padding(15.dp)
-    ){
+    ) {
         Column(
             modifier = Modifier.padding(20.dp)
         ) {
