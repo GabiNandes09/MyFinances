@@ -10,6 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.rogue.financesrogue.ui.screen.main.componentes.CategoriesListResume
 import com.rogue.financesrogue.ui.screen.main.componentes.FinancesResume
 import com.rogue.financesrogue.ui.screen.main.componentes.MainBottomBar
+import com.rogue.financesrogue.ui.screen.main.componentes.MainFloatButton
 import com.rogue.financesrogue.ui.screen.main.componentes.PersonListResume
 import com.rogue.financesrogue.ui.screen.main.componentes.ProfileHeader
 
@@ -20,7 +21,8 @@ fun MainUI() {
         containerColor = Color.Gray,
         bottomBar = {
             MainBottomBar()
-        }
+        },
+        floatingActionButton = { MainFloatButton() }
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier.padding(paddingValues)
