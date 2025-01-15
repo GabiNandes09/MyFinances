@@ -24,23 +24,32 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+//v1 - 15/01/2025
 @Composable
 fun CategoriesListResume() {
-    LazyColumn(
-        modifier = Modifier.background(Color.Gray).heightIn(max = 300.dp)
+    Column(
+        modifier = Modifier
+            .background(Color.Gray)
+            .heightIn(max = 300.dp)
     ) {
-        item {
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Categorias",
-                    fontSize = 25.sp,
-                    modifier = Modifier.padding(start = 15.dp)
-                )
-            }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Categorias",
+                fontSize = 25.sp,
+                modifier = Modifier.padding(start = 15.dp)
+            )
         }
+    }
+    LazyColumn(
+        modifier = Modifier
+            .background(Color.Gray)
+            .heightIn(max = 300.dp)
+    ) {
         for (i in 1..5){
             item {
                 CategoryItem()
@@ -52,7 +61,9 @@ fun CategoriesListResume() {
 @Composable
 private fun CategoryItem() {
     Card(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 2.5.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp, vertical = 2.5.dp),
         colors = CardDefaults.cardColors(containerColor = Color.LightGray)
     ) {
         Row(

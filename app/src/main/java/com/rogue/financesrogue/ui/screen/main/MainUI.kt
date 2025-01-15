@@ -13,7 +13,7 @@ import com.rogue.financesrogue.ui.screen.main.componentes.MainBottomBar
 import com.rogue.financesrogue.ui.screen.main.componentes.PersonListResume
 import com.rogue.financesrogue.ui.screen.main.componentes.ProfileHeader
 
-//V1 - 09/01/25
+//V2 - 15/01/25
 @Composable
 fun MainUI() {
     Scaffold(
@@ -26,9 +26,9 @@ fun MainUI() {
             modifier = Modifier.padding(paddingValues)
         ) {
             item { ProfileHeader() }
-            item { CategoriesListResume() }
-            item { PersonListResume() }
             item { FinancesResume() }
+            item { PersonListResume() }
+            item { CategoriesListResume() }
         }
     }
 }
