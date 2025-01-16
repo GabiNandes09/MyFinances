@@ -36,6 +36,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.rogue.financesrogue.model.User
 import com.rogue.financesrogue.repositories.UserDAO
+import com.rogue.financesrogue.ui.screen.ItemPurchasedUI
 import com.rogue.financesrogue.ui.screen.LoginUI
 import com.rogue.financesrogue.ui.screen.main.MainUI
 import com.rogue.financesrogue.ui.theme.MyFinancesTheme
@@ -53,6 +54,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("main") {
                         MainUI()
+                    }
+                    composable("addItemPurchased") {
+                        ItemPurchasedUI()
                     }
                 }
                 Nav.navController = navController

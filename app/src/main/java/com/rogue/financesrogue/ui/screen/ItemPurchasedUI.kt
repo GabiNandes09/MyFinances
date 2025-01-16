@@ -1,4 +1,4 @@
-package com.rogue.financesrogue.ui
+package com.rogue.financesrogue.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,10 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerState
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -41,7 +37,7 @@ fun ItemPurchasedUI() {
     Scaffold(
         topBar = {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(top = 30.dp),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -58,7 +54,7 @@ fun ItemPurchasedUI() {
                 }
             }
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(top = 30.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -157,7 +153,8 @@ fun ItemPurchasedUI() {
                         modifier = Modifier.width(120.dp)
                     ) {
                         Text(
-                            text = "Cancelar"
+                            text = "Cancelar",
+                            color = Color.White
                         )
                     }
                     Button(
@@ -166,7 +163,8 @@ fun ItemPurchasedUI() {
                         modifier = Modifier.width(120.dp)
                     ) {
                         Text(
-                            text = "Salvar"
+                            text = "Salvar",
+                            color = Color.White
                         )
                     }
                 }
