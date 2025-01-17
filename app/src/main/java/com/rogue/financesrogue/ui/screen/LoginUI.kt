@@ -110,7 +110,7 @@ fun LoginUI() {
                 )
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { Nav.navController?.navigate("register")},
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
             ) {
                 Text(
