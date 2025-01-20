@@ -1,6 +1,5 @@
 package com.rogue.financesrogue.ui.screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -20,6 +18,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -39,7 +38,7 @@ import androidx.compose.ui.unit.sp
 import com.rogue.financesrogue.Nav
 import com.rogue.financesrogue.R
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
-import com.rogue.financesrogue.ui.defaultComponentes.DefaultQuestionButton
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
 
 //v1 - 16/01/25
 @Composable
@@ -65,7 +64,8 @@ fun FixedValuedUI() {
                             .size(50.dp)
                     )
                 }
-                DefaultQuestionButton(
+                DefaultHelpIconWithTooltip(
+                    "",
                     modifier = Modifier.padding(10.dp)
                 )
             }
@@ -180,18 +180,19 @@ fun FixedValuedUI() {
                         Checkbox(
                             checked = false,
                             onCheckedChange = {},
+                            colors = CheckboxDefaults.colors(
+                                uncheckedColor = Color.Black,
+                                checkedColor = Color.Black,
+                                checkmarkColor = Color.Black
+                            )
                         )
                         Text(
                             text = "Varíavel",
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp
                             )
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.help),
-                                contentDescription = null
-                            )
-                        }
+                        DefaultHelpIconWithTooltip(
+                            explanationText = "Este valor existe todos os meses, mas pode variar. Ex: Conta de água, Conta de Luz")
                     }
                 }
                 item {

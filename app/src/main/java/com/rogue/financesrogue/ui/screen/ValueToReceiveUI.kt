@@ -3,7 +3,6 @@ package com.rogue.financesrogue.ui.screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -34,7 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.rogue.financesrogue.Nav
 import com.rogue.financesrogue.R
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
-import com.rogue.financesrogue.ui.defaultComponentes.DefaultQuestionButton
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
 
 //v1 - 16/01/25
 @Composable
@@ -63,7 +62,8 @@ fun ValuesToReceiveUI() {
                     text = "Valor a receber",
                     fontSize = 35.sp
                 )
-                DefaultQuestionButton(
+                DefaultHelpIconWithTooltip(
+                    "",
                     modifier = Modifier
                         .padding(10.dp)
                 )
