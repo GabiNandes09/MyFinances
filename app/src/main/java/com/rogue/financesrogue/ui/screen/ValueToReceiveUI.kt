@@ -28,6 +28,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.rogue.financesrogue.Nav
 import com.rogue.financesrogue.R
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
 
@@ -44,7 +45,7 @@ fun ValuesToReceiveUI() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(
-                    onClick = { /*TODO*/ },
+                    onClick = { Nav.navController?.popBackStack() },
                     modifier = Modifier.padding(10.dp)
                 ) {
                     Icon(

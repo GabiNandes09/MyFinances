@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.rogue.financesrogue.Nav
 
 //v1 - 17/01/2025
 @Composable
@@ -144,7 +145,7 @@ private fun TitleHead() {
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(onClick = { Nav.navController?.popBackStack() }) {
             Icon(
                 imageVector = Icons.Default.ArrowBack,
                 contentDescription = null,

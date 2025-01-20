@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.rogue.financesrogue.Nav
 
 @Composable
 fun MainFloatButton() {
@@ -48,12 +49,19 @@ fun MainFloatButton() {
             ) {
                 ItemFloatButton(
                     text = item,
-                    onclick = { expanded = false }
+                    onclick = {
+                        expanded = false
+                        when(item) {
+                            "Compra única" -> Nav.navController?.navigate("addItemPurchased")
+                            "Valor fixo" -> Nav.navController?.navigate("addFixedValue")
+                            "Compra parcelada" -> Nav.navController?.navigate("addParcelValue")
+                            "Valor a receber" -> Nav.navController?.navigate("addValueToReceive")
+                        }
+                    }
                 )
             }
         }
 
-        // FloatingActionButton sem animações
         FloatingActionButton(
             onClick = { expanded = !expanded },
             containerColor = Color.White,
