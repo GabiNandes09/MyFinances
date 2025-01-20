@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -76,7 +77,10 @@ fun ItemPurchasedUI() {
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(10.dp)
-                .wrapContentHeight()
+                .wrapContentHeight(),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.LightGray
+            )
         ) {
             LazyColumn(
                 modifier = Modifier

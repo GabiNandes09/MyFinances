@@ -7,10 +7,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -30,95 +34,132 @@ import com.rogue.financesrogue.Nav
 @Composable
 fun RegisterUI() {
     Scaffold(
-        topBar = { TitleHead() }
+        topBar = { TitleHead() },
+        containerColor = Color.Gray
     ) { paddingValues ->
-        Column(
+        Card(
             modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            TextField(
-                value = "",
-                onValueChange = {},
-                label = { Text(text = "Usuário: ") },
-                modifier = Modifier.padding(vertical = 10.dp),
-                shape = RoundedCornerShape(25.dp),
-                colors = TextFieldDefaults.colors(
-                    disabledIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    errorIndicatorColor = Color.Transparent
-                )
+                .padding(10.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.LightGray
             )
-            TextField(
-                value = "",
-                onValueChange = {},
-                label = { Text(text = "Nome: ") },
-                modifier = Modifier.padding(vertical = 10.dp),
-                shape = RoundedCornerShape(25.dp),
-                colors = TextFieldDefaults.colors(
-                    disabledIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    errorIndicatorColor = Color.Transparent
-                )
-            )
-            TextField(
-                value = "",
-                onValueChange = {},
-                label = { Text(text = "Sobrenome: ") },
-                modifier = Modifier.padding(vertical = 10.dp),
-                shape = RoundedCornerShape(25.dp),
-                colors = TextFieldDefaults.colors(
-                    disabledIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    errorIndicatorColor = Color.Transparent
-                )
-            )
-            TextField(
-                value = "",
-                onValueChange = {},
-                label = { Text(text = "Salário: ") },
-                modifier = Modifier.padding(vertical = 10.dp),
-                shape = RoundedCornerShape(25.dp),
-                colors = TextFieldDefaults.colors(
-                    disabledIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    errorIndicatorColor = Color.Transparent
-                )
-            )
-            TextField(
-                value = "",
-                onValueChange = {},
-                label = { Text(text = "Senha: ") },
-                modifier = Modifier.padding(vertical = 10.dp),
-                shape = RoundedCornerShape(25.dp),
-                colors = TextFieldDefaults.colors(
-                    disabledIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    errorIndicatorColor = Color.Transparent
-                )
-            )
-            TextField(
-                value = "",
-                onValueChange = {},
-                label = { Text(text = "Confirmar senha: ") },
-                modifier = Modifier.padding(vertical = 10.dp),
-                shape = RoundedCornerShape(25.dp),
-                colors = TextFieldDefaults.colors(
-                    disabledIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    errorIndicatorColor = Color.Transparent
-                )
-            )
-            Button(onClick = { /*TODO*/ }) {
-                Text(text = "Registrar")
+        ){
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(vertical = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                item {
+                    TextField(
+                        value = "",
+                        onValueChange = {},
+                        label = { Text(text = "Usuário: ") },
+                        modifier = Modifier.padding(vertical = 10.dp),
+                        shape = RoundedCornerShape(25.dp),
+                        colors = TextFieldDefaults.colors(
+                            disabledIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            errorIndicatorColor = Color.Transparent,
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White
+                        )
+                    )
+                }
+                item {
+                    TextField(
+                        value = "",
+                        onValueChange = {},
+                        label = { Text(text = "Nome: ") },
+                        modifier = Modifier.padding(vertical = 10.dp),
+                        shape = RoundedCornerShape(25.dp),
+                        colors = TextFieldDefaults.colors(
+                            disabledIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            errorIndicatorColor = Color.Transparent,
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White
+                        )
+                    )
+                }
+                item {
+                    TextField(
+                        value = "",
+                        onValueChange = {},
+                        label = { Text(text = "Sobrenome: ") },
+                        modifier = Modifier.padding(vertical = 10.dp),
+                        shape = RoundedCornerShape(25.dp),
+                        colors = TextFieldDefaults.colors(
+                            disabledIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            errorIndicatorColor = Color.Transparent,
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White
+                        )
+                    )
+                }
+                item {
+                    TextField(
+                        value = "",
+                        onValueChange = {},
+                        label = { Text(text = "Salário: ") },
+                        modifier = Modifier.padding(vertical = 10.dp),
+                        shape = RoundedCornerShape(25.dp),
+                        colors = TextFieldDefaults.colors(
+                            disabledIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            errorIndicatorColor = Color.Transparent,
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White
+                        )
+                    )
+                }
+                item {
+                    TextField(
+                        value = "",
+                        onValueChange = {},
+                        label = { Text(text = "Senha: ") },
+                        modifier = Modifier.padding(vertical = 10.dp),
+                        shape = RoundedCornerShape(25.dp),
+                        colors = TextFieldDefaults.colors(
+                            disabledIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            errorIndicatorColor = Color.Transparent,
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White
+                        )
+                    )
+                }
+                item {
+                    TextField(
+                        value = "",
+                        onValueChange = {},
+                        label = { Text(text = "Confirmar senha: ") },
+                        modifier = Modifier.padding(vertical = 10.dp),
+                        shape = RoundedCornerShape(25.dp),
+                        colors = TextFieldDefaults.colors(
+                            disabledIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            errorIndicatorColor = Color.Transparent,
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White
+                        )
+                    )
+                }
+                item {
+                    Button(onClick = { /*TODO*/ }) {
+                        Text(text = "Registrar")
+                    }
+                }
             }
         }
     }
