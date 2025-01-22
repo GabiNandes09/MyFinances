@@ -12,6 +12,7 @@ import com.rogue.financesrogue.database.dao.ParcelValuesDAO
 import com.rogue.financesrogue.database.dao.PaymentWayDAO
 import com.rogue.financesrogue.database.dao.PersonDAO
 import com.rogue.financesrogue.database.dao.UserDAO
+import com.rogue.financesrogue.database.dao.ValueToReceiveDAO
 import com.rogue.financesrogue.database.entities.BrandEntity
 import com.rogue.financesrogue.database.entities.CategoryEntity
 import com.rogue.financesrogue.database.entities.CreditCardEntity
@@ -22,6 +23,7 @@ import com.rogue.financesrogue.database.entities.ParcelValueEntity
 import com.rogue.financesrogue.database.entities.PaymentWayEntity
 import com.rogue.financesrogue.database.entities.PersonEntity
 import com.rogue.financesrogue.database.entities.UserEntity
+import com.rogue.financesrogue.database.entities.ValueToReceiveEntity
 
 @Database(
     entities = [
@@ -35,12 +37,11 @@ import com.rogue.financesrogue.database.entities.UserEntity
         PaymentWayEntity::class,
         PersonEntity::class,
         UserEntity::class,
+        ValueToReceiveEntity::class
     ],
     version = 1
 )
 abstract class MyFinancesDatabase : RoomDatabase() {
-
-    abstract fun userDao(): UserDAO
     abstract fun BrandDAO(): BrandDAO
     abstract fun CategoryDAO(): CategoryDAO
     abstract fun CreditCardDAO(): CreditCardDAO
@@ -50,4 +51,6 @@ abstract class MyFinancesDatabase : RoomDatabase() {
     abstract fun ParcelValuesDAO(): ParcelValuesDAO
     abstract fun PaymentWayDAO(): PaymentWayDAO
     abstract fun PersonDAO(): PersonDAO
+    abstract fun userDao(): UserDAO
+    abstract fun ValueToReceiveDAO(): ValueToReceiveDAO
 }
