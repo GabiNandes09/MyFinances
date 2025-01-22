@@ -7,6 +7,7 @@ import com.rogue.financesrogue.database.dao.CategoryDAO
 import com.rogue.financesrogue.database.dao.CreditCardDAO
 import com.rogue.financesrogue.database.dao.FixedValueDAO
 import com.rogue.financesrogue.database.dao.ItemPurchasedDAO
+import com.rogue.financesrogue.database.dao.MonthValuesDAO
 import com.rogue.financesrogue.database.dao.PaymentWayDAO
 import com.rogue.financesrogue.database.dao.PersonDAO
 import com.rogue.financesrogue.database.dao.UserDAO
@@ -15,6 +16,7 @@ import com.rogue.financesrogue.database.entities.CategoryEntity
 import com.rogue.financesrogue.database.entities.CreditCardEntity
 import com.rogue.financesrogue.database.entities.FixedValueEntity
 import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
+import com.rogue.financesrogue.database.entities.MonthValuesEntity
 import com.rogue.financesrogue.database.entities.PaymentWayEntity
 import com.rogue.financesrogue.database.entities.PersonEntity
 import com.rogue.financesrogue.database.entities.UserEntity
@@ -26,6 +28,7 @@ import com.rogue.financesrogue.database.entities.UserEntity
         CreditCardEntity::class,
         FixedValueEntity::class,
         ItemPurchasedEntity::class,
+        MonthValuesEntity::class,
         PaymentWayEntity::class,
         PersonEntity::class,
         UserEntity::class,
@@ -40,6 +43,7 @@ abstract class MyFinancesDatabase : RoomDatabase() {
     abstract fun CreditCardDAO(): CreditCardDAO
     abstract fun FixedValueDAO(): FixedValueDAO
     abstract fun ItemPurchasedDAO(): ItemPurchasedDAO
+    abstract fun MonthValuesDAO(): MonthValuesDAO
     abstract fun PaymentWayDAO(): PaymentWayDAO
     abstract fun PersonDAO(): PersonDAO
 }
