@@ -72,4 +72,11 @@ dependencies {
     implementation(libs.androidx.room.ktx)
 
     implementation(libs.koin.android)
+    implementation(libs.koin.bom)
+    runtimeOnly(libs.koin.compose)
+    runtimeOnly(libs.koin.core)
+    implementation(libs.koin.core.coroutines)
+    implementation(libs.koin.core.viewmodel.navigation)
+    runtimeOnly(libs.koin.core.viewmodel)
+
 }
