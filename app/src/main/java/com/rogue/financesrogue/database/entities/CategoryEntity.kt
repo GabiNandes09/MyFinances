@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class BrandEntity(
+data class CategoryEntity(
     @PrimaryKey(autoGenerate = true)
-    val brandId: Int,
-    val brand: String
+    val categoryId: Int,
+    val category: String
 )
