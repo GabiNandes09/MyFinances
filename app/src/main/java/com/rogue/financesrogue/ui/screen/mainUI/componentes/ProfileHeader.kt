@@ -1,4 +1,4 @@
-package com.rogue.financesrogue.ui.screen.main.componentes
+package com.rogue.financesrogue.ui.screen.mainUI.componentes
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

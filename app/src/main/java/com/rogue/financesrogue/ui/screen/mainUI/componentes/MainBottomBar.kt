@@ -1,8 +1,8 @@
-package com.rogue.financesrogue.ui.screen.main.componentes
+package com.rogue.financesrogue.ui.screen.mainUI.componentes
 
-import android.graphics.drawable.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
@@ -14,7 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun MainBottomBar() {
     val items = listOf(
-        BottomItem("Resumo", Icons.Default.Home)
+        BottomItem("Resumo", Icons.Default.Home),
+        BottomItem("Compras", Icons.Default.ShoppingCart)
     )
     BottomAppBar(actions = {
         items.forEach { item ->

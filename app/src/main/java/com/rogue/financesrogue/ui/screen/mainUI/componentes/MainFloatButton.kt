@@ -1,4 +1,4 @@
-package com.rogue.financesrogue.ui.screen.main.componentes
+package com.rogue.financesrogue.ui.screen.mainUI.componentes
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween

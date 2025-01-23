@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.rogue.financesrogue"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.rogue.financesrogue"
@@ -72,7 +72,6 @@ dependencies {
     implementation(libs.androidx.room.ktx)
 
     implementation(libs.koin.android)
-    implementation(libs.koin.bom)
     runtimeOnly(libs.koin.compose)
     runtimeOnly(libs.koin.core)
     implementation(libs.koin.core.coroutines)
