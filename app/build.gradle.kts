@@ -78,4 +78,6 @@ dependencies {
     implementation(libs.koin.core.viewmodel.navigation)
     runtimeOnly(libs.koin.core.viewmodel)
 
+    runtimeOnly(libs.material3)
+
 }

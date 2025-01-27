@@ -1,5 +1,6 @@
 package com.rogue.financesrogue.ui.screen.mainUI
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
@@ -24,13 +25,15 @@ fun MainUI() {
         },
         floatingActionButton = { MainFloatButton() }
     ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier.padding(paddingValues)
-        ) {
-            item { ProfileHeader() }
-            item { FinancesResume() }
-            item { PersonListResume() }
-            item { CategoriesListResume() }
+        Column {
+            ProfileHeader()
+            LazyColumn(
+                modifier = Modifier.padding(paddingValues)
+            ) {
+                item { FinancesResume() }
+                item { PersonListResume() }
+                item { CategoriesListResume() }
+            }
         }
     }
 }
