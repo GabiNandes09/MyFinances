@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun MainBottomBar() {
+fun MainBottomBar(selectedItem: Int) {
     val items = listOf(
         BottomItem("Resumo", Icons.Default.Home),
         BottomItem("Compras", Icons.Default.ShoppingCart)
@@ -20,7 +20,7 @@ fun MainBottomBar() {
     BottomAppBar(actions = {
         items.forEach { item ->
             NavigationBarItem(
-                selected = false,
+                selected = selectedItem == items.indexOf(item),
                 onClick = { /*TODO*/ },
                 icon = { Icon(imageVector = item.icon, contentDescription = null) },
                 label = { Text(text = item.label) }
@@ -32,7 +32,7 @@ fun MainBottomBar() {
 @Preview
 @Composable
 private fun MainBottomBarPrev() {
-    MainBottomBar()
+    MainBottomBar(0)
 }
 
 data class BottomItem(
