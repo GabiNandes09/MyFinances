@@ -22,7 +22,6 @@ fun AllListUI() {
         Column(
             modifier = Modifier.padding(paddingValues)
         ) {
-            ProfileHeader()
             TotalRow()
             SearchAndFilterBar()
             LazyColumn {

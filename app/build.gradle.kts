@@ -77,6 +77,8 @@ dependencies {
     implementation(libs.koin.core.coroutines)
     implementation(libs.koin.core.viewmodel.navigation)
     runtimeOnly(libs.koin.core.viewmodel)
+    implementation (libs.koin.androidx.compose)
+
 
     runtimeOnly(libs.material3)
 
