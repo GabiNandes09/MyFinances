@@ -9,11 +9,11 @@ import com.rogue.financesrogue.database.entities.PaymentWayEntity
 @Dao
 interface PaymentWayDAO {
     @Insert
-    fun insertPaymentWay(paymentWay: PaymentWayEntity)
+    suspend fun insertPaymentWay(paymentWay: PaymentWayEntity)
 
     @Delete
-    fun deletePaymentWay(paymentWay: PaymentWayEntity)
+    suspend fun deletePaymentWay(paymentWay: PaymentWayEntity)
 
     @Query("SELECT * FROM PaymentWayEntity")
-    fun selectAllPaymentWay(): List<PaymentWayEntity>
+    suspend fun selectAllPaymentWay(): List<PaymentWayEntity>
 }

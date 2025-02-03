@@ -12,6 +12,9 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.rogue.financesrogue.database.MyFinancesDatabase
+import com.rogue.financesrogue.database.dao.PaymentWayDAO
+import com.rogue.financesrogue.database.entities.PaymentWayEntity
 import com.rogue.financesrogue.ui.screen.FixedValuedUI
 import com.rogue.financesrogue.ui.screen.ItemPurchasedUI
 import com.rogue.financesrogue.ui.screen.LoginUI
@@ -20,6 +23,7 @@ import com.rogue.financesrogue.ui.screen.RegisterUI
 import com.rogue.financesrogue.ui.screen.ValuesToReceiveUI
 import com.rogue.financesrogue.ui.screen.mainUI.MainUI
 import com.rogue.financesrogue.ui.theme.MyFinancesTheme
+import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,5 +87,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
 }
 

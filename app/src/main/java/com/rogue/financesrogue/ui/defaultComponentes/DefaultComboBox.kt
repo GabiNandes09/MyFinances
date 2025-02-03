@@ -1,6 +1,9 @@
 package com.rogue.financesrogue.ui.defaultComponentes
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,6 +17,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,14 +26,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun DefaultComboBox(
     modifier: Modifier = Modifier,
-    unselected: String = "Selecione..."
+    unselected: String = "Selecione...",
+    list: List<Any> = emptyList(),
+    onItemSelect: (Any)-> Unit = {}
 ) {
     // Lista de itens do ComboBox
-    val items = listOf("Opção 1", "Opção 2", "Opção 3", "Opção 4")
+    val items = list.ifEmpty { listOf("OP1", "OP2", "OP3", "OP4") }
     var expanded by remember { mutableStateOf(false) } // Controla a exibição do menu
     var selectedItem by remember { mutableStateOf("") } // Item selecionado
 
@@ -42,17 +49,35 @@ fun DefaultComboBox(
             value = selectedItem,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White
+                unfocusedContainerColor = Color.White,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
             ),
             onValueChange = { },
-            label = { Text(unselected) },
-            readOnly = true, // Evita edição direta
+            label = {
+                Text(
+                    unselected,
+                    modifier = Modifier.background(Color.Transparent)
+                )
+            },
+            readOnly = true,
             trailingIcon = {
                 Icon(
                     imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.ArrowDropDown,
                     contentDescription = "Dropdown Icon",
                     Modifier.clickable { expanded = !expanded } // Controla o estado de expansão
                 )
+            },
+            interactionSource = remember {
+                MutableInteractionSource()
+            }.also {
+                LaunchedEffect(key1 = it) {
+                    it.interactions.collectLatest {interaction ->
+                        if (interaction is PressInteraction.Release){
+                            expanded = true
+                        }
+                    }
+                }
             }
         )
 
@@ -64,10 +89,15 @@ fun DefaultComboBox(
             items.forEach { item ->
                 DropdownMenuItem(
                     onClick = {
-                        selectedItem = item // Atualiza o item selecionado
+                        selectedItem = item.toString() // Atualiza o item selecionado
                         expanded = false // Fecha o menu
+                        onItemSelect(item)
                     },
-                    text = {Text(text = item)}
+                    text = {
+                        Text(
+                            text = item.toString()
+                        )
+                    }
                 )
             }
         }

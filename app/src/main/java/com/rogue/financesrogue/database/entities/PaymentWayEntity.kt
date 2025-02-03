@@ -6,6 +6,11 @@ import androidx.room.PrimaryKey
 @Entity
 data class PaymentWayEntity(
     @PrimaryKey(autoGenerate = true)
-    val paymentWayId: Int,
+    val paymentWayId: Int? = null,
     val paymentWay: String
-)
+){
+    override fun toString(): String {
+        return paymentWay
+    }
+}
+

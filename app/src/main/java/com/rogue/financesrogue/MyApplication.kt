@@ -1,6 +1,7 @@
 package com.rogue.financesrogue
 
 import android.app.Application
+import com.rogue.financesrogue.database.MyFinancesDatabase
 import com.rogue.financesrogue.modules.appModule
 import com.rogue.financesrogue.modules.storageModule
 import org.koin.android.ext.koin.androidContext
@@ -17,5 +18,12 @@ class MyApplication: Application() {
             androidContext(this@MyApplication)
             modules(appModule, storageModule)
         }
+
+        getDatabaseInstance()
+    }
+
+    private fun getDatabaseInstance() {
+        val db = MyFinancesDatabase.getDatabase(applicationContext)
+        db.openHelper.writableDatabase
     }
 }

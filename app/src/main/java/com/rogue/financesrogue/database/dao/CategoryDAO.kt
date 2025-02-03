@@ -9,11 +9,11 @@ import com.rogue.financesrogue.database.entities.CategoryEntity
 @Dao
 interface CategoryDAO {
     @Insert
-    fun insertCategory(category: CategoryEntity)
+    suspend fun insertCategory(category: CategoryEntity)
 
     @Delete
-    fun deleteCategory(category: CategoryEntity)
+    suspend fun deleteCategory(category: CategoryEntity)
 
     @Query("SELECT * FROM CategoryEntity")
-    fun selectAllCategory(): List<CategoryEntity>
+    suspend fun selectAllCategory(): List<CategoryEntity>
 }

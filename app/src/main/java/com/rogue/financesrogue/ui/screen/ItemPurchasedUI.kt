@@ -23,6 +23,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,12 +34,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rogue.financesrogue.Nav
 import com.rogue.financesrogue.R
+import com.rogue.financesrogue.database.entities.CategoryEntity
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
+import com.rogue.financesrogue.viewmodel.ItemPurchasedViewModel
+import org.koin.androidx.compose.koinViewModel
 
 //v1 - 16/01/25
 @Composable
 fun ItemPurchasedUI() {
+    val viewModel: ItemPurchasedViewModel = koinViewModel()
+    val paymentWayList by viewModel.paymentWayList.collectAsState()
+    val categoryList by viewModel.categoryList.collectAsState()
+
+
     Scaffold(
         topBar = {
             Row(
@@ -96,7 +106,11 @@ fun ItemPurchasedUI() {
                     ) {
                         Text(text = "Categoria:")
                         DefaultComboBox(
-                            unselected = "Selecione a categoria"
+                            unselected = "Selecione a categoria",
+                            list = categoryList,
+                            onItemSelect = {
+                                viewModel.setCategory(it as CategoryEntity)
+                            }
                         )
                     }
                 }
@@ -158,7 +172,8 @@ fun ItemPurchasedUI() {
                     Column {
                         Text(text = "Forma de pagamento:")
                         DefaultComboBox(
-                            unselected = "Selecione..."
+                            unselected = "Selecione...",
+                            list = paymentWayList
                         )
                     }
                 }
@@ -179,7 +194,7 @@ fun ItemPurchasedUI() {
                         modifier = Modifier.padding(top = 10.dp)
                     ) {
                         Button(
-                            onClick = { /*TODO*/ },
+                            onClick = { Nav.navController?.popBackStack() },
                             colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.Red)),
                             modifier = Modifier.width(120.dp)
                         ) {
