@@ -32,15 +32,15 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DefaultDatePicker(
+    date: String? = "",
     onDateSelected: (LocalDate) -> Unit
 ) {
     var openDatePicker by remember { mutableStateOf(false) }
     val state = rememberDatePickerState()
-    var date by remember { mutableStateOf("") }
 
     TextField(
         readOnly = true,
-        value = date,
+        value = date ?: "",
         onValueChange = {},
         label = { Text(text = "Data:") },
         interactionSource = remember {
@@ -67,12 +67,10 @@ fun DefaultDatePicker(
             confirmButton = {
                 Button(onClick = {
                     state.selectedDateMillis?.let { millis ->
-                        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
                         val localDateTime = Instant.ofEpochMilli(millis)
                             .atZone(ZoneOffset.UTC)
                             .toLocalDate()
                         onDateSelected(localDateTime)
-                        date = localDateTime.format(formatter)
                     }
                     openDatePicker = false
                 }

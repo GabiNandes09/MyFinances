@@ -2,6 +2,8 @@ package com.rogue.financesrogue.ui.screen
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,23 +28,34 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rogue.financesrogue.Nav
 import com.rogue.financesrogue.R
 import com.rogue.financesrogue.database.entities.CategoryEntity
+import com.rogue.financesrogue.database.entities.PaymentWayEntity
+import com.rogue.financesrogue.database.entities.PersonEntity
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultDatePicker
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
 import com.rogue.financesrogue.viewmodel.ItemPurchasedViewModel
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
+import java.time.format.DateTimeFormatter
 
 //v1 - 16/01/25
 @RequiresApi(Build.VERSION_CODES.O)
@@ -51,7 +64,14 @@ fun ItemPurchasedUI() {
     val viewModel: ItemPurchasedViewModel = koinViewModel()
     val paymentWayList by viewModel.paymentWayList.collectAsState()
     val categoryList by viewModel.categoryList.collectAsState()
+    val personList by viewModel.personList.collectAsState()
 
+    val pw by viewModel.paymentWay.collectAsState()
+    val value by viewModel.value.collectAsState()
+    val description by viewModel.description.collectAsState()
+    val date by viewModel.date.collectAsState()
+
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
     Scaffold(
         topBar = {
@@ -76,7 +96,7 @@ fun ItemPurchasedUI() {
                     )
                 }
                 Text(
-                    text = "Compra pontual",
+                    text = "Compra única",
                     fontSize = 35.sp,
                     modifier = Modifier.padding(10.dp)
                 )
@@ -120,10 +140,20 @@ fun ItemPurchasedUI() {
                     }
                 }
                 item {
+                    var instantValue by remember {
+                        mutableStateOf(value.toString())
+                    }
                     TextField(
-                        value = "",
-                        onValueChange = {},
-                        modifier = Modifier.padding(vertical = 5.dp),
+                        value = "R$ $instantValue",
+                        onValueChange = {input ->
+                            val formatted = input.replace(Regex("[^0-9,.]"), "")
+                            instantValue = formatted
+
+                            val numericValue = formatted.replace(",", ".").toDoubleOrNull() ?: 0.0
+                            viewModel.setValue(numericValue)
+                        },
+                        modifier = Modifier
+                            .padding(vertical = 5.dp),
                         label = {
                             Text(
                                 text = "Valor:",
@@ -138,13 +168,16 @@ fun ItemPurchasedUI() {
                             focusedContainerColor = Color.White,
                             unfocusedContainerColor = Color.White
                         ),
-                        singleLine = true
-                    )
+                        singleLine = true,
+
+                        )
                 }
                 item {
                     TextField(
-                        value = "",
-                        onValueChange = {},
+                        value = description,
+                        onValueChange = {
+                            viewModel.setDescription(it)
+                        },
                         modifier = Modifier.padding(vertical = 5.dp),
                         label = {
                             Text(
@@ -167,7 +200,9 @@ fun ItemPurchasedUI() {
                     Column(
                         modifier = Modifier.padding(top = 5.dp, bottom = 10.dp)
                     ) {
-                        DefaultDatePicker({})
+                        DefaultDatePicker(date = date?.format(formatter)) {
+                            viewModel.setDate(it)
+                        }
                     }
                 }
                 item {
@@ -175,20 +210,31 @@ fun ItemPurchasedUI() {
                         Text(text = "Forma de pagamento:")
                         DefaultComboBox(
                             unselected = "Selecione...",
-                            list = paymentWayList
+                            list = paymentWayList,
+                            onItemSelect = {
+                                viewModel.setPaymentWay(it as PaymentWayEntity)
+                            }
                         )
                     }
                 }
-                item {
-                    Column(
-                        modifier = Modifier.padding(top = 10.dp)
-                    ) {
-                        Text(text = "Pagar para:")
-                        DefaultComboBox(
-                            unselected = "Selecione..."
-                        )
+
+                if (pw?.paymentWay.equals("Pessoa", ignoreCase = true)) {
+                    item {
+                        Column(
+                            modifier = Modifier.padding(top = 10.dp)
+                        ) {
+                            Text(text = "Pagar para:")
+                            DefaultComboBox(
+                                list = personList,
+                                unselected = "Selecione...",
+                                onItemSelect = {
+                                    viewModel.setPerson(it as PersonEntity)
+                                }
+                            )
+                        }
                     }
                 }
+
                 item {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
