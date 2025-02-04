@@ -2,8 +2,6 @@ package com.rogue.financesrogue.ui.screen
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -28,19 +25,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,9 +44,9 @@ import com.rogue.financesrogue.database.entities.PaymentWayEntity
 import com.rogue.financesrogue.database.entities.PersonEntity
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultDatePicker
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultErrorDialog
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
 import com.rogue.financesrogue.viewmodel.ItemPurchasedViewModel
-import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 import java.time.format.DateTimeFormatter
 
@@ -70,8 +63,18 @@ fun ItemPurchasedUI() {
     val value by viewModel.value.collectAsState()
     val description by viewModel.description.collectAsState()
     val date by viewModel.date.collectAsState()
+    val hasError by viewModel.hasError.collectAsState()
 
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
+    if (hasError){
+        DefaultErrorDialog(
+            title = "Campos necessários",
+            message = "É necessário preencher todos os campos",
+            confirmButtonClicked = { viewModel.errorOkay() },
+            onDismissRequest = { viewModel.errorOkay() }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -252,7 +255,7 @@ fun ItemPurchasedUI() {
                             )
                         }
                         Button(
-                            onClick = { /*TODO*/ },
+                            onClick = { viewModel.saveItem() },
                             colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.Blue)),
                             modifier = Modifier.width(120.dp)
                         ) {

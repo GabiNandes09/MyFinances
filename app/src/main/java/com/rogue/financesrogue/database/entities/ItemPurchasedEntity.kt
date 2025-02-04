@@ -28,7 +28,7 @@ import com.rogue.financesrogue.model.Person
 )
 data class ItemPurchasedEntity(
     @PrimaryKey(autoGenerate = true)
-    val itemPurchasedId: Int,
+    val itemPurchasedId: Int? = null,
     val dayOfPurchased: String,
     val idCategory: Int,
     val price: Double,

@@ -1,21 +1,23 @@
 package com.rogue.financesrogue.viewmodel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rogue.financesrogue.database.MyFinancesDatabase
 import com.rogue.financesrogue.database.dao.CategoryDAO
 import com.rogue.financesrogue.database.dao.ItemPurchasedDAO
 import com.rogue.financesrogue.database.dao.PaymentWayDAO
 import com.rogue.financesrogue.database.dao.PersonDAO
 import com.rogue.financesrogue.database.entities.CategoryEntity
+import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
 import com.rogue.financesrogue.database.entities.PaymentWayEntity
 import com.rogue.financesrogue.database.entities.PersonEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class ItemPurchasedViewModel(
     private val itemRepository: ItemPurchasedDAO,
@@ -23,6 +25,8 @@ class ItemPurchasedViewModel(
     private val categoryRepository: CategoryDAO,
     private val personRepository: PersonDAO
 ) : ViewModel() {
+    @RequiresApi(Build.VERSION_CODES.O)
+    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -58,6 +62,9 @@ class ItemPurchasedViewModel(
 
     private val _person = MutableStateFlow<PersonEntity?>(null)
     val person = _person.asStateFlow()
+
+    private val _hasError = MutableStateFlow(false)
+    val hasError = _hasError.asStateFlow()
 
     private suspend fun loadPaymentWay() {
         _paymentWayList.value = paymentWayRepository.selectAllPaymentWay()
@@ -95,11 +102,39 @@ class ItemPurchasedViewModel(
         _person.value = person
     }
 
-    fun saveItem(){
-
+    fun errorOkay(){
+        _hasError.value = false
     }
 
-    fun checkEverything(): Boolean{
-        return true
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun saveItem(){
+        if (checkEverything()){
+            itemRepository.insertItemPurchased(
+                ItemPurchasedEntity(
+                    dayOfPurchased = _date.value?.format(formatter) ?: "Erro",
+                    idCategory = _category.value?.categoryId ?: -1,
+                    price = _value.value,
+                    idPaymentWay = _paymentWay.value?.paymentWayId ?: -1,
+                    description = _description.value,
+                    payForPerson = (_paymentWay.value?.paymentWay.equals("pessoa", ignoreCase = true)),
+                    idPerson = _person.value?.personId
+                )
+            )
+        } else {
+            _hasError.value = true
+        }
+    }
+
+    private fun checkEverything(): Boolean{
+        if (
+            _category.value != null &&
+            _value.value > 0.0 &&
+            _description.value.isNotEmpty() &&
+            _date.value != null &&
+            _paymentWay.value != null
+        ){
+            return !(_paymentWay.value?.paymentWay.equals("Pessoa", ignoreCase = true) && _person.value == null)
+        }
+        return false
     }
 }
