@@ -1,5 +1,7 @@
 package com.rogue.financesrogue.ui.screen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -36,11 +39,13 @@ import com.rogue.financesrogue.Nav
 import com.rogue.financesrogue.R
 import com.rogue.financesrogue.database.entities.CategoryEntity
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultDatePicker
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
 import com.rogue.financesrogue.viewmodel.ItemPurchasedViewModel
 import org.koin.androidx.compose.koinViewModel
 
 //v1 - 16/01/25
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ItemPurchasedUI() {
     val viewModel: ItemPurchasedViewModel = koinViewModel()
@@ -64,7 +69,7 @@ fun ItemPurchasedUI() {
                     modifier = Modifier.padding(10.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.ArrowBack,
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = null,
                         modifier = Modifier
                             .size(50.dp)
@@ -162,10 +167,7 @@ fun ItemPurchasedUI() {
                     Column(
                         modifier = Modifier.padding(top = 5.dp, bottom = 10.dp)
                     ) {
-                        Text(text = "Data:")
-                        DefaultComboBox(
-                            unselected = "__/__/____"
-                        )
+                        DefaultDatePicker({})
                     }
                 }
                 item {
@@ -220,6 +222,7 @@ fun ItemPurchasedUI() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 private fun ItemPurchasedUIPrev() {
