@@ -9,11 +9,11 @@ import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
 @Dao
 interface ItemPurchasedDAO {
     @Insert
-    fun insertItemPurchased(itemPurchased: ItemPurchasedEntity)
+    suspend fun insertItemPurchased(itemPurchased: ItemPurchasedEntity)
 
     @Delete
-    fun deleteItemPurchased(itemPurchased: ItemPurchasedEntity)
+    suspend fun deleteItemPurchased(itemPurchased: ItemPurchasedEntity)
 
     @Query("SELECT * FROM ItemPurchasedEntity")
-    fun selectAllItemPurchased(): List<ItemPurchasedEntity>
+    suspend fun selectAllItemPurchased(): List<ItemPurchasedEntity>
 }

@@ -41,7 +41,8 @@ fun DefaultErrorDialog(
                     )
                 ) {
                     Text(
-                        text = "ENTENDIDO"
+                        text = "ENTENDIDO",
+                        color = Color.White
                     )
                 }
             }

@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rogue.financesrogue.Nav
 import com.rogue.financesrogue.database.dao.CategoryDAO
 import com.rogue.financesrogue.database.dao.ItemPurchasedDAO
 import com.rogue.financesrogue.database.dao.PaymentWayDAO
@@ -16,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -109,17 +111,22 @@ class ItemPurchasedViewModel(
     @RequiresApi(Build.VERSION_CODES.O)
     fun saveItem(){
         if (checkEverything()){
-            itemRepository.insertItemPurchased(
-                ItemPurchasedEntity(
-                    dayOfPurchased = _date.value?.format(formatter) ?: "Erro",
-                    idCategory = _category.value?.categoryId ?: -1,
-                    price = _value.value,
-                    idPaymentWay = _paymentWay.value?.paymentWayId ?: -1,
-                    description = _description.value,
-                    payForPerson = (_paymentWay.value?.paymentWay.equals("pessoa", ignoreCase = true)),
-                    idPerson = _person.value?.personId
+            viewModelScope.launch(Dispatchers.IO) {
+                itemRepository.insertItemPurchased(
+                    ItemPurchasedEntity(
+                        dayOfPurchased = _date.value?.format(formatter) ?: "Erro",
+                        idCategory = _category.value?.categoryId ?: -1,
+                        price = _value.value,
+                        idPaymentWay = _paymentWay.value?.paymentWayId ?: -1,
+                        description = _description.value,
+                        payForPerson = (_paymentWay.value?.paymentWay.equals("pessoa", ignoreCase = true)),
+                        idPerson = _person.value?.personId
+                    )
                 )
-            )
+                withContext(Dispatchers.Main){
+                    Nav.navController?.popBackStack()
+                }
+            }
         } else {
             _hasError.value = true
         }
