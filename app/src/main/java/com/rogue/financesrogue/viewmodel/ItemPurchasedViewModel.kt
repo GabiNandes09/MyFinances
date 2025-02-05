@@ -30,14 +30,6 @@ class ItemPurchasedViewModel(
     @RequiresApi(Build.VERSION_CODES.O)
     val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            loadPaymentWay()
-            loadCategory()
-            loadPerson()
-        }
-    }
-
     private val _paymentWayList = MutableStateFlow<List<PaymentWayEntity>>(emptyList())
     val paymentWayList = _paymentWayList.asStateFlow()
 
@@ -67,6 +59,14 @@ class ItemPurchasedViewModel(
 
     private val _hasError = MutableStateFlow(false)
     val hasError = _hasError.asStateFlow()
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            loadPaymentWay()
+            loadCategory()
+            loadPerson()
+        }
+    }
 
     private suspend fun loadPaymentWay() {
         _paymentWayList.value = paymentWayRepository.selectAllPaymentWay()

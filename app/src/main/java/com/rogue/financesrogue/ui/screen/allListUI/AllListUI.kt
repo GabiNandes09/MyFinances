@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -12,10 +15,17 @@ import com.rogue.financesrogue.ui.screen.allListUI.components.ItemAllList
 import com.rogue.financesrogue.ui.screen.allListUI.components.SearchAndFilterBar
 import com.rogue.financesrogue.ui.screen.allListUI.components.TotalRow
 import com.rogue.financesrogue.ui.screen.mainUI.componentes.ProfileHeader
+import com.rogue.financesrogue.viewmodel.AllListViewModel
+import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 
 //v1 - 27/01/2025
 @Composable
 fun AllListUI() {
+    val viewModel: AllListViewModel = koinViewModel()
+    val itemPurchasedList by viewModel.itemPurchasedList.collectAsState()
+
+
     Scaffold(
         containerColor = Color.Gray
     ) { paddingValues ->
@@ -25,9 +35,9 @@ fun AllListUI() {
             TotalRow()
             SearchAndFilterBar()
             LazyColumn {
-                for (i in 1..5) {
+                itemPurchasedList.forEach {item ->
                     item {
-                        ItemAllList()
+                        ItemAllList(item)
                     }
                 }
             }

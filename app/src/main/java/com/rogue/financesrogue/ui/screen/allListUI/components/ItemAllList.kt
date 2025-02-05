@@ -4,20 +4,38 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.rogue.financesrogue.database.dao.CategoryDAO
+import com.rogue.financesrogue.database.entities.CategoryEntity
+import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
+import com.rogue.financesrogue.database.entities.ParcelValueEntity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.koin.compose.koinInject
 
 @Composable
-fun ItemAllList() {
+fun ItemAllList(
+    item: Any
+) {
+    val categoryRepository: CategoryDAO = koinInject()
+
+    val itemList = remember { mutableStateOf<ItemAllList?>(null) }
+
+    LaunchedEffect(item) {
+        itemList.value = convertIntoItem(item, categoryRepository)
+    }
+
     Card(
         modifier = Modifier.padding(horizontal = 10.dp, vertical = 2.5.dp),
         elevation = CardDefaults.elevatedCardElevation(
@@ -31,15 +49,30 @@ fun ItemAllList() {
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {
-            Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = null)
-            Text(text = "Compra jogos Steam")
-            Text(text = "R$ 229,00")
+            //Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = null)
+            Text(text = itemList.value?.category?.categoryId.toString())
+            Text(text = itemList.value?.description ?: "Error")
+            Text(text = "R$ ${itemList.value?.value}")
         }
     }
 }
 
-@Preview
-@Composable
-private fun ItemPrev() {
-    ItemAllList()
+private suspend fun convertIntoItem(item: Any, categoryRepository: CategoryDAO): ItemAllList? {
+    when (item) {
+        is ItemPurchasedEntity -> {
+            return ItemAllList(
+                description = item.description,
+                value = item.price,
+                category = categoryRepository.selectOneCategory(item.idCategory)
+            )
+        }
+    }
+    return null
 }
+
+private data class ItemAllList(
+    val description: String,
+    val value: Double,
+    val category: CategoryEntity
+)
+

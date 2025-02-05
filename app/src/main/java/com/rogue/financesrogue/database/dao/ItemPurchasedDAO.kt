@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
+import java.util.concurrent.Flow
 
 @Dao
 interface ItemPurchasedDAO {
@@ -15,5 +16,5 @@ interface ItemPurchasedDAO {
     suspend fun deleteItemPurchased(itemPurchased: ItemPurchasedEntity)
 
     @Query("SELECT * FROM ItemPurchasedEntity")
-    suspend fun selectAllItemPurchased(): List<ItemPurchasedEntity>
+    fun selectAllItemPurchased(): kotlinx.coroutines.flow.Flow<List<ItemPurchasedEntity>>
 }
