@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
 import com.rogue.financesrogue.database.entities.ValueToReceiveEntity
 
 @Dao
@@ -15,5 +16,5 @@ interface ValueToReceiveDAO {
     fun deleteValueToReceive(valueToReceive: ValueToReceiveEntity)
 
     @Query("SELECT * FROM ValueToReceiveEntity")
-    fun selectAllValueToRecceive(): List<ValueToReceiveEntity>
+    fun selectAllValueToRecceive(): kotlinx.coroutines.flow.Flow<List<ValueToReceiveEntity>>
 }

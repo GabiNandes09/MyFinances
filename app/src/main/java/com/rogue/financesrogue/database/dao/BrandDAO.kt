@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.rogue.financesrogue.database.entities.BrandEntity
+import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
 
 @Dao
 interface BrandDAO {
@@ -15,5 +16,5 @@ interface BrandDAO {
     fun deleteBrand(brand: BrandEntity)
 
     @Query("SELECT * FROM BrandEntity")
-    fun selectAllBrand(): List<BrandEntity>
+    fun selectAllBrand(): kotlinx.coroutines.flow.Flow<List<BrandEntity>>
 }

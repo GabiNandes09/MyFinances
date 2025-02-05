@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
 import com.rogue.financesrogue.database.entities.UserEntity
 
 @Dao
@@ -15,5 +16,5 @@ interface UserDAO {
     fun deleteUser(user: UserEntity)
 
     @Query("SELECT * FROM UserEntity;")
-    fun selectAllUser(): List<UserEntity>
+    fun selectAllUser(): kotlinx.coroutines.flow.Flow<List<UserEntity>>
 }

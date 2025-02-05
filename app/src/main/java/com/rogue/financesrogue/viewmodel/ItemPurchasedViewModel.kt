@@ -14,6 +14,7 @@ import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
 import com.rogue.financesrogue.database.entities.PaymentWayEntity
 import com.rogue.financesrogue.database.entities.PersonEntity
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -62,22 +63,29 @@ class ItemPurchasedViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            loadPaymentWay()
-            loadCategory()
-            loadPerson()
+            launch { loadPaymentWay() }
+            launch { loadCategory() }
+            launch { loadPerson() }
         }
     }
 
     private suspend fun loadPaymentWay() {
-        _paymentWayList.value = paymentWayRepository.selectAllPaymentWay()
+        paymentWayRepository.selectAllPaymentWay().collect{pwList ->
+            _paymentWayList.value = pwList
+        }
     }
 
     private suspend fun loadCategory() {
-        _categoryList.value = categoryRepository.selectAllCategory()
+        categoryRepository.selectAllCategory().collect{categorylist ->
+            println("Categorias emitidas pelo Flow: ${categorylist.size}")
+            _categoryList.value = categorylist
+        }
     }
 
     private suspend fun loadPerson() {
-        _personList.value = personRepository.selectAllPerson()
+        personRepository.selectAllPerson().collect{personList ->
+            _personList.value = personList
+        }
     }
 
     fun setCategory(category: CategoryEntity){

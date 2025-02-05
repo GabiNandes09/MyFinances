@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.rogue.financesrogue.database.entities.CategoryEntity
+import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
 
 @Dao
 interface CategoryDAO {
@@ -15,7 +16,7 @@ interface CategoryDAO {
     suspend fun deleteCategory(category: CategoryEntity)
 
     @Query("SELECT * FROM CategoryEntity")
-    suspend fun selectAllCategory(): List<CategoryEntity>
+    fun selectAllCategory(): kotlinx.coroutines.flow.Flow<List<CategoryEntity>>
 
     @Query("SELECT * FROM CategoryEntity WHERE categoryId = :id")
     suspend fun selectOneCategory(id: Int): CategoryEntity
