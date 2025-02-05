@@ -104,7 +104,14 @@ fun ItemPurchasedUI() {
                     modifier = Modifier.padding(10.dp)
                 )
                 DefaultHelpIconWithTooltip(
-                    "",
+                    "Destinado a compras que ocorrem pontualmente em seu mês, " +
+                            "e não necessáriamente acontecerão sempre. \n" +
+                            "Podemos ter como exemplo: \n" +
+                            "* Compras de lanches \n" +
+                            "* Gastos em passeios \n" +
+                            "* Combustivel \n" +
+                            "* Um presente \n"
+                    ,
                     modifier = Modifier.padding(10.dp)
                 )
             }
