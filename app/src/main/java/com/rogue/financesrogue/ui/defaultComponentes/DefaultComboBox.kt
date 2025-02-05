@@ -7,14 +7,17 @@ import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,7 +48,7 @@ fun DefaultComboBox(
         modifier = modifier
     ) {
         // Caixa para exibição
-        OutlinedTextField(
+        TextField(
             value = selectedItem,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
@@ -84,7 +87,8 @@ fun DefaultComboBox(
         // Dropdown Menu
         DropdownMenu(
             expanded = expanded,
-            onDismissRequest = { expanded = false } // Fecha o menu ao clicar fora
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.background(Color.White)
         ) {
             items.forEach { item ->
                 DropdownMenuItem(
@@ -95,9 +99,13 @@ fun DefaultComboBox(
                     },
                     text = {
                         Text(
-                            text = item.toString()
+                            text = item.toString(),
+                            color = Color.Black
                         )
-                    }
+                    },
+                    modifier = Modifier
+                        .padding(2.dp)
+                        .width(200.dp)
                 )
             }
         }
