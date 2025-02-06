@@ -57,7 +57,7 @@ fun ItemPurchasedUI() {
     val viewModel: ItemPurchasedViewModel = koinViewModel()
     val paymentWayList by viewModel.paymentWayList.collectAsState()
     val categoryList by viewModel.categoryList.collectAsState()
-    val personList by viewModel.personList.collectAsState()
+    val personList: List<PersonEntity> by viewModel.personList.collectAsState(emptyList())
 
     val pw by viewModel.paymentWay.collectAsState()
     val value by viewModel.value.collectAsState()
@@ -141,11 +141,13 @@ fun ItemPurchasedUI() {
                     ) {
                         Text(text = "Categoria:")
                         DefaultComboBox(
+                            canAdd = true,
                             unselected = "Selecione a categoria",
-                            list = categoryList,
+                            items = categoryList,
                             onItemSelect = {
                                 viewModel.setCategory(it as CategoryEntity)
-                            }
+                            },
+                            type = "categoria"
                         )
                     }
                 }
@@ -220,10 +222,12 @@ fun ItemPurchasedUI() {
                         Text(text = "Forma de pagamento:")
                         DefaultComboBox(
                             unselected = "Selecione...",
-                            list = paymentWayList,
+                            items = paymentWayList,
                             onItemSelect = {
                                 viewModel.setPaymentWay(it as PaymentWayEntity)
-                            }
+                            },
+                            canAdd = true,
+                            type = "forma de pagamento"
                         )
                     }
                 }
@@ -235,11 +239,13 @@ fun ItemPurchasedUI() {
                         ) {
                             Text(text = "Pagar para:")
                             DefaultComboBox(
-                                list = personList,
+                                items = personList,
                                 unselected = "Selecione...",
                                 onItemSelect = {
                                     viewModel.setPerson(it as PersonEntity)
-                                }
+                                },
+                                canAdd = true,
+                                type = "pessoa"
                             )
                         }
                     }

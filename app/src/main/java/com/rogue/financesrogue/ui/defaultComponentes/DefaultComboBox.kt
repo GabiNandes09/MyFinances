@@ -5,7 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -14,8 +14,6 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MenuDefaults
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -25,29 +23,51 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
+import com.rogue.financesrogue.database.entities.CategoryEntity
+import com.rogue.financesrogue.database.entities.PaymentWayEntity
+import com.rogue.financesrogue.database.entities.PersonEntity
+import com.rogue.financesrogue.ui.screen.BasicRegistrationUI
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun DefaultComboBox(
     modifier: Modifier = Modifier,
     unselected: String = "Selecione...",
-    list: List<Any> = emptyList(),
-    onItemSelect: (Any)-> Unit = {}
+    items: List<Any> = emptyList(),
+    onItemSelect: (Any)-> Unit = {},
+    canAdd: Boolean = false,
+    type: String = "Falta preencher"
 ) {
-    // Lista de itens do ComboBox
-    val items = list.ifEmpty { listOf("OP1", "OP2", "OP3", "OP4") }
-    var expanded by remember { mutableStateOf(false) } // Controla a exibição do menu
-    var selectedItem by remember { mutableStateOf("") } // Item selecionado
+    var expanded by remember { mutableStateOf(false) }
+    var selectedItem by remember { mutableStateOf("") }
+    var showAdd by remember { mutableStateOf(false) }
 
-    // Componente do ComboBox
+    if(showAdd){
+        Popup(
+            onDismissRequest = {showAdd = false},
+            alignment = Alignment.Center
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.5f))
+                    .clickable(onClick = { showAdd = false }),
+                contentAlignment = Alignment.Center
+            ) {
+                BasicRegistrationUI(type)
+            }
+        }
+    }
+
     Box(
         modifier = modifier
     ) {
-        // Caixa para exibição
         TextField(
             value = selectedItem,
             colors = TextFieldDefaults.colors(
@@ -68,7 +88,7 @@ fun DefaultComboBox(
                 Icon(
                     imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.ArrowDropDown,
                     contentDescription = "Dropdown Icon",
-                    Modifier.clickable { expanded = !expanded } // Controla o estado de expansão
+                    Modifier.clickable { expanded = !expanded }
                 )
             },
             interactionSource = remember {
@@ -90,11 +110,27 @@ fun DefaultComboBox(
             onDismissRequest = { expanded = false },
             modifier = Modifier.background(Color.White)
         ) {
+            if (canAdd){
+                DropdownMenuItem(
+                    onClick = {
+                        showAdd = true
+                    },
+                    text = {
+                        Text(
+                            text = "Adicionar novo",
+                            color = Color.Black
+                        )
+                    },
+                    modifier = Modifier
+                        .padding(2.dp)
+                        .width(200.dp)
+                )
+            }
             items.forEach { item ->
                 DropdownMenuItem(
                     onClick = {
-                        selectedItem = item.toString() // Atualiza o item selecionado
-                        expanded = false // Fecha o menu
+                        selectedItem = item.toString()
+                        expanded = false
                         onItemSelect(item)
                     },
                     text = {
@@ -115,5 +151,5 @@ fun DefaultComboBox(
 @Preview
 @Composable
 private fun ComboBoxExamplePrev() {
-    DefaultComboBox()
+    DefaultComboBox(type = "Teste")
 }

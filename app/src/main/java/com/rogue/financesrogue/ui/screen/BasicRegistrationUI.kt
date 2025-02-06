@@ -85,5 +85,5 @@ fun BasicRegistrationUI(column: String) {
 @Preview
 @Composable
 private fun BasicRegistrationUIPrev() {
-    BasicRegistrationUI("[Algo]")
+    BasicRegistrationUI("Teste")
 }

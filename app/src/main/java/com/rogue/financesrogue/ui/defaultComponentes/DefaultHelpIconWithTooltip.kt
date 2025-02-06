@@ -14,8 +14,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -33,12 +35,12 @@ fun DefaultHelpIconWithTooltip(
     explanationText: String,
     modifier: Modifier = Modifier
 ) {
-    val showTooltip = remember { mutableStateOf(false) }
+    var showTooltip by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier) {
         // Icone de interrogação
         IconButton(
-            onClick = { showTooltip.value = !showTooltip.value },
+            onClick = { showTooltip = !showTooltip },
             modifier = modifier
         ) {
             Icon(
@@ -48,10 +50,10 @@ fun DefaultHelpIconWithTooltip(
         }
 
         // Popup com a explicação
-        if (showTooltip.value) {
+        if (showTooltip) {
             Popup(
                 alignment = Alignment.TopCenter,
-                onDismissRequest = { showTooltip.value = false },
+                onDismissRequest = { showTooltip = false },
             ) {
                 Column(
                     modifier = Modifier

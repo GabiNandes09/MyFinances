@@ -61,7 +61,9 @@ fun CreditCardUI() {
         )
         DefaultComboBox(
             unselected = "Selecione a marca",
-            modifier = Modifier.padding(5.dp)
+            modifier = Modifier.padding(5.dp),
+            canAdd = true,
+            type = "marca"
         )
         TextField(
             value = "",
