@@ -147,7 +147,10 @@ fun ItemPurchasedUI() {
                             onItemSelect = {
                                 viewModel.setCategory(it as CategoryEntity)
                             },
-                            type = "categoria"
+                            type = "categoria",
+                            onAdd = {description ->
+                                viewModel.onAddCategory(description)
+                            }
                         )
                     }
                 }
@@ -227,7 +230,10 @@ fun ItemPurchasedUI() {
                                 viewModel.setPaymentWay(it as PaymentWayEntity)
                             },
                             canAdd = true,
-                            type = "forma de pagamento"
+                            type = "forma de pagamento",
+                            onAdd = {
+                                viewModel.addPaymentWay(it)
+                            }
                         )
                     }
                 }
@@ -245,7 +251,10 @@ fun ItemPurchasedUI() {
                                     viewModel.setPerson(it as PersonEntity)
                                 },
                                 canAdd = true,
-                                type = "pessoa"
+                                type = "pessoa",
+                                onAdd = {
+                                    viewModel.addPerson(it)
+                                }
                             )
                         }
                     }

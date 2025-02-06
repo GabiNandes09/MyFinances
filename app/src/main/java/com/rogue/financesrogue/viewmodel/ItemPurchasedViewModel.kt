@@ -152,4 +152,22 @@ class ItemPurchasedViewModel(
         }
         return false
     }
+
+    fun onAddCategory(string: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            categoryRepository.insertCategory(CategoryEntity(category = string.uppercase()))
+        }
+    }
+
+    fun addPaymentWay(string: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            paymentWayRepository.insertPaymentWay(PaymentWayEntity(paymentWay = string))
+        }
+    }
+
+    fun addPerson(string: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            personRepository.insertPerson(PersonEntity(person = string))
+        }
+    }
 }

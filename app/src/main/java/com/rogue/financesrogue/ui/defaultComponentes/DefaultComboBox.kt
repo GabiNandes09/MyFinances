@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.Popup
 import com.rogue.financesrogue.database.entities.CategoryEntity
 import com.rogue.financesrogue.database.entities.PaymentWayEntity
@@ -40,27 +41,30 @@ fun DefaultComboBox(
     modifier: Modifier = Modifier,
     unselected: String = "Selecione...",
     items: List<Any> = emptyList(),
-    onItemSelect: (Any)-> Unit = {},
+    onItemSelect: (Any) -> Unit = {},
     canAdd: Boolean = false,
-    type: String = "Falta preencher"
+    type: String = "Falta preencher",
+    onAdd: (String) -> Unit = {}
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf("") }
     var showAdd by remember { mutableStateOf(false) }
 
-    if(showAdd){
-        Popup(
-            onDismissRequest = {showAdd = false},
-            alignment = Alignment.Center
-        ) {
+    if (showAdd) {
+        Dialog(onDismissRequest = { showAdd = false }) {
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.5f))
-                    .clickable(onClick = { showAdd = false }),
+                    .fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                BasicRegistrationUI(type)
+                BasicRegistrationUI(
+                    type,
+                    { showAdd = false },
+                    {
+                        onAdd(it)
+                        showAdd = false
+                    }
+                )
             }
         }
     }
@@ -95,8 +99,8 @@ fun DefaultComboBox(
                 MutableInteractionSource()
             }.also {
                 LaunchedEffect(key1 = it) {
-                    it.interactions.collectLatest {interaction ->
-                        if (interaction is PressInteraction.Release){
+                    it.interactions.collectLatest { interaction ->
+                        if (interaction is PressInteraction.Release) {
                             expanded = true
                         }
                     }
@@ -110,7 +114,7 @@ fun DefaultComboBox(
             onDismissRequest = { expanded = false },
             modifier = Modifier.background(Color.White)
         ) {
-            if (canAdd){
+            if (canAdd) {
                 DropdownMenuItem(
                     onClick = {
                         showAdd = true
