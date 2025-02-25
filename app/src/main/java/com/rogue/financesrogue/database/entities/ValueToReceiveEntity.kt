@@ -10,20 +10,14 @@ import androidx.room.PrimaryKey
             entity = PersonEntity::class,
             parentColumns = ["personId"],
             childColumns = ["personToReceive"]
-        ),
-        ForeignKey(
-            entity = PaymentWayEntity::class,
-            parentColumns = ["paymentWayId"],
-            childColumns = ["idPaymentWay"]
         )
     ]
 )
 data class ValueToReceiveEntity(
     @PrimaryKey(autoGenerate = true)
-    val valueToReceiveId: Int,
+    val valueToReceiveId: Int? = null,
     val personToReceive: Int,
     val totalPrice: Double,
-    val idPaymentWay: Int,
     val type: Int,
     val parcels: Int = 1,
     val description: String

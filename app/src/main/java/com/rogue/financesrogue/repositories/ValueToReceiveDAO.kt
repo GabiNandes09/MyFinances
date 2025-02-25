@@ -47,7 +47,6 @@ class ValueToReceiveDAO(context: Context) : IRepository {
                         c.getInt(c.getColumnIndexOrThrow("ValueToReceiveId")),
                         person,
                         c.getDouble(c.getColumnIndexOrThrow("TotalPrice")),
-                        paymentWay,
                         type,
                         c.getInt(c.getColumnIndexOrThrow("Parcels")),
                         c.getString(c.getColumnIndexOrThrow("Description"))
@@ -97,7 +96,6 @@ class ValueToReceiveDAO(context: Context) : IRepository {
                         c.getInt(c.getColumnIndexOrThrow("ValueToReceiveId")),
                         person,
                         c.getDouble(c.getColumnIndexOrThrow("TotalPrice")),
-                        paymentWay,
                         type,
                         c.getInt(c.getColumnIndexOrThrow("Parcels")),
                         c.getString(c.getColumnIndexOrThrow("Description"))
@@ -115,7 +113,6 @@ class ValueToReceiveDAO(context: Context) : IRepository {
         val values = ContentValues().apply {
             put("PersonToReceive", valueToReceive.personToReceive.personId)
             put("TotalPrice", valueToReceive.totalPrice)
-            put("idPaymentWay", valueToReceive.paymentWay.paymentWayId)
             put("Type", valueToReceive.type.type)
             put("Parcels", valueToReceive.parcels)
             put("Description", valueToReceive.description)
