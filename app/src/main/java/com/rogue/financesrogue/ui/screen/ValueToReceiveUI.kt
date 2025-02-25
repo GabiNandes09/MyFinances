@@ -40,8 +40,9 @@ import com.rogue.financesrogue.ui.defaultComponentes.DefaultCheckBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHeaderAdd
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultTextFieldToReceiveValues
 
-//v1 - 16/01/25
+//v2 - 25/02/25
 @Composable
 fun ValuesToReceiveUI() {
 
@@ -51,11 +52,11 @@ fun ValuesToReceiveUI() {
 
     Scaffold(
         topBar = {
-                 DefaultHeaderAdd(
-                     title = "Valor a receber",
-                     explanationText = "Valores que você deve receber, geralmente de outra pessoa\n" +
-                             "Podemos utilizar como exemplo um valor emprestado, ou seu salário, alguma devolução."
-                 )
+            DefaultHeaderAdd(
+                title = "Valor a receber",
+                explanationText = "Valores que você deve receber, geralmente de outra pessoa\n" +
+                        "Podemos utilizar como exemplo um valor emprestado, ou seu salário, alguma devolução."
+            )
         },
         containerColor = Color.Gray
     ) { paddingValues ->
@@ -86,57 +87,29 @@ fun ValuesToReceiveUI() {
                     }
                 }
                 item {
-                    TextField(
+                    DefaultTextFieldToReceiveValues(
                         value = "",
-                        onValueChange = {},
-                        modifier = Modifier.padding(vertical = 5.dp),
-                        label = { Text(text = "Valor total:") },
-                        shape = RoundedCornerShape(25.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White
-                        ),
-                        singleLine = true
-                    )
-                }
-                item {
-                    TextField(
-                        value = "",
-                        onValueChange = {},
-                        modifier = Modifier.padding(vertical = 5.dp),
-                        label = { Text(text = "Descrição:") },
-                        shape = RoundedCornerShape(25.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White
-                        ),
-                        maxLines = 4
-                    )
-                }
-                item {
+                        label = "Valor Total:"
+                    ) {
 
-                    TextField(
+                    }
+                }
+                item {
+                    DefaultTextFieldToReceiveValues(
+                        value = "",
+                        label = "Descrição:"
+                    ) {
+
+                    }
+                }
+                item {
+                    DefaultTextFieldToReceiveValues(
                         value = if (parcelEnable) "" else "1",
-                        enabled = parcelEnable,
-                        onValueChange = {},
-                        modifier = Modifier.padding(bottom = 5.dp, top = 10.dp),
-                        label = { Text(text = "Total de parcelas:") },
-                        shape = RoundedCornerShape(25.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White
-                        ),
-                        singleLine = true
-                    )
+                        label = "Total de parcelas:",
+                        enable = parcelEnable
+                    ) {
+
+                    }
                 }
                 item {
                     DefaultCheckBox(
