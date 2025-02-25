@@ -8,4 +8,8 @@ data class PersonEntity (
     @PrimaryKey(autoGenerate = true)
     val personId: Int? = null,
     val person: String
-)
+){
+    override fun toString(): String {
+        return person
+    }
+}

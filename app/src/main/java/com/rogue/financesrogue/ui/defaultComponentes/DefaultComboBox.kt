@@ -58,9 +58,9 @@ fun DefaultComboBox(
                 contentAlignment = Alignment.Center
             ) {
                 BasicRegistrationUI(
-                    type,
-                    { showAdd = false },
-                    {
+                    column = type,
+                    onCancelClick = { showAdd = false },
+                    onSaveClick = {
                         onAdd(it)
                         showAdd = false
                     }
