@@ -42,6 +42,7 @@ import com.rogue.financesrogue.R
 import com.rogue.financesrogue.database.entities.CategoryEntity
 import com.rogue.financesrogue.database.entities.PaymentWayEntity
 import com.rogue.financesrogue.database.entities.PersonEntity
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultCancelAndConfirmButtons
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultDatePicker
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultErrorDialog
@@ -204,31 +205,8 @@ fun ItemPurchasedUI() {
                 }
 
                 item {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(50.dp),
-                        modifier = Modifier.padding(top = 10.dp)
-                    ) {
-                        Button(
-                            onClick = { Nav.navController?.popBackStack() },
-                            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.Red)),
-                            modifier = Modifier.width(120.dp)
-                        ) {
-                            Text(
-                                text = "Cancelar",
-                                color = Color.White
-                            )
-                        }
-                        Button(
-                            onClick = { viewModel.saveItem() },
-                            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.Blue)),
-                            modifier = Modifier.width(120.dp)
-                        ) {
-                            Text(
-                                text = "Salvar",
-                                color = Color.White
-                            )
-                        }
+                    DefaultCancelAndConfirmButtons {
+                        viewModel.saveItem()
                     }
                 }
             }

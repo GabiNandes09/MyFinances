@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rogue.financesrogue.Nav
 import com.rogue.financesrogue.R
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultCancelAndConfirmButtons
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultCheckBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHeaderAdd
@@ -120,31 +121,8 @@ fun ValuesToReceiveUI() {
                     )
                 }
                 item {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(50.dp),
-                        modifier = Modifier.padding(top = 10.dp)
-                    ) {
-                        Button(
-                            onClick = { /*TODO*/ },
-                            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.Red)),
-                            modifier = Modifier.width(120.dp)
-                        ) {
-                            Text(
-                                text = "Cancelar",
-                                color = Color.White
-                            )
-                        }
-                        Button(
-                            onClick = { /*TODO*/ },
-                            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.Blue)),
-                            modifier = Modifier.width(120.dp)
-                        ) {
-                            Text(
-                                text = "Salvar",
-                                color = Color.White
-                            )
-                        }
+                    DefaultCancelAndConfirmButtons {
+
                     }
                 }
             }
