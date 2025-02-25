@@ -38,6 +38,7 @@ import com.rogue.financesrogue.Nav
 import com.rogue.financesrogue.R
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultCheckBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultHeaderAdd
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
 
 //v1 - 16/01/25
@@ -50,34 +51,11 @@ fun ValuesToReceiveUI() {
 
     Scaffold(
         topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 30.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(
-                    onClick = { Nav.navController?.popBackStack() },
-                    modifier = Modifier.padding(10.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(50.dp)
-                    )
-                }
-                Text(
-                    text = "Valor a receber",
-                    fontSize = 35.sp
-                )
-                DefaultHelpIconWithTooltip(
-                    "",
-                    modifier = Modifier
-                        .padding(10.dp)
-                )
-            }
+                 DefaultHeaderAdd(
+                     title = "Valor a receber",
+                     explanationText = "Valores que você deve receber, geralmente de outra pessoa\n" +
+                             "Podemos utilizar como exemplo um valor emprestado, ou seu salário, alguma devolução."
+                 )
         },
         containerColor = Color.Gray
     ) { paddingValues ->
