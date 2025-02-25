@@ -4,6 +4,7 @@ import com.rogue.financesrogue.database.MyFinancesDatabase
 import com.rogue.financesrogue.viewmodel.AllListViewModel
 import com.rogue.financesrogue.viewmodel.ItemPurchasedViewModel
 import com.rogue.financesrogue.viewmodel.MainPageViewModel
+import com.rogue.financesrogue.viewmodel.ValueToReceiveViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -22,7 +23,14 @@ val appModule = module {
     }
     viewModel {
         AllListViewModel(
-            itemRepository = get()
+            itemRepository = get(),
+            valuesToReceiveRepository = get()
+        )
+    }
+    viewModel {
+        ValueToReceiveViewModel(
+            personRepository = get(),
+            valueToReceiveRepository = get()
         )
     }
 
@@ -36,4 +44,5 @@ val storageModule = module {
     factory {get<MyFinancesDatabase>().ItemPurchasedDAO()}
     factory {get<MyFinancesDatabase>().CategoryDAO()}
     factory {get<MyFinancesDatabase>().PersonDAO()}
+    factory { get<MyFinancesDatabase>().ValueToReceiveDAO() }
 }

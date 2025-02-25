@@ -4,7 +4,6 @@ data class ValueToReceive(
     val valueToReceiveId: Int,
     val personToReceive: Person,
     val totalPrice: Double,
-    val paymentWay: PaymentWay,
     val type: ValueType,
     val parcels: Int = 1,
     val description: String

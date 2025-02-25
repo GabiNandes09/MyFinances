@@ -18,6 +18,7 @@ import com.rogue.financesrogue.database.dao.CategoryDAO
 import com.rogue.financesrogue.database.entities.CategoryEntity
 import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
 import com.rogue.financesrogue.database.entities.ParcelValueEntity
+import com.rogue.financesrogue.database.entities.ValueToReceiveEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -64,6 +65,13 @@ private suspend fun convertIntoItem(item: Any, categoryRepository: CategoryDAO):
                 description = item.description,
                 value = item.price,
                 category = categoryRepository.selectOneCategory(item.idCategory)
+            )
+        }
+        is ValueToReceiveEntity -> {
+            return ItemAllList(
+                description = item.description,
+                value = item.totalPrice,
+                category = categoryRepository.selectOneCategory(1) //todo pensar em o que colocar aqui
             )
         }
     }
