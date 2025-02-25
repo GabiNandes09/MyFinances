@@ -21,6 +21,7 @@ fun DefaultTextFieldToReceiveValues(
     value: String,
     label: String,
     enable: Boolean = true,
+    maxLines: Int = 1,
     onValueChange: (String) -> Unit
 ) {
     TextField(
@@ -29,8 +30,14 @@ fun DefaultTextFieldToReceiveValues(
             onValueChange(it)
         },
         enabled = enable,
+        maxLines = maxLines,
         modifier = Modifier.padding(vertical = 5.dp),
-        label = { Text(text = label) },
+        label = {
+            Text(
+                text = label,
+                color = Color.Black
+            )
+        },
         shape = RoundedCornerShape(25.dp),
         colors = TextFieldDefaults.colors(
             unfocusedIndicatorColor = Color.Transparent,

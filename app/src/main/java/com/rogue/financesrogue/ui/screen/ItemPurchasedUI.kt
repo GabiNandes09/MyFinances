@@ -47,6 +47,7 @@ import com.rogue.financesrogue.ui.defaultComponentes.DefaultDatePicker
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultErrorDialog
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHeaderAdd
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultTextFieldToReceiveValues
 import com.rogue.financesrogue.viewmodel.ItemPurchasedViewModel
 import org.koin.androidx.compose.koinViewModel
 import java.time.format.DateTimeFormatter
@@ -68,7 +69,11 @@ fun ItemPurchasedUI() {
 
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
-    if (hasError){
+    var instantValue by remember {
+        mutableStateOf(value.toString())
+    }
+
+    if (hasError) {
         DefaultErrorDialog(
             title = "Campos necessários",
             message = "É necessário preencher todos os campos",
@@ -122,68 +127,32 @@ fun ItemPurchasedUI() {
                                 viewModel.setCategory(it as CategoryEntity)
                             },
                             type = "categoria",
-                            onAdd = {description ->
+                            onAdd = { description ->
                                 viewModel.onAddCategory(description)
                             }
                         )
                     }
                 }
                 item {
-                    var instantValue by remember {
-                        mutableStateOf(value.toString())
-                    }
-                    TextField(
+                    DefaultTextFieldToReceiveValues(
                         value = "R$ $instantValue",
-                        onValueChange = {input ->
-                            val formatted = input.replace(Regex("[^0-9,.]"), "")
-                            instantValue = formatted
+                        label = "Valor:"
+                    ) { input ->
+                        val formatted = input.replace(Regex("[^0-9,.]"), "")
+                        instantValue = formatted
 
-                            val numericValue = formatted.replace(",", ".").toDoubleOrNull() ?: 0.0
-                            viewModel.setValue(numericValue)
-                        },
-                        modifier = Modifier
-                            .padding(vertical = 5.dp),
-                        label = {
-                            Text(
-                                text = "Valor:",
-                                color = Color.Black
-                            )
-                        },
-                        shape = RoundedCornerShape(25.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White
-                        ),
-                        singleLine = true,
-
-                        )
+                        val numericValue = formatted.replace(",", ".").toDoubleOrNull() ?: 0.0
+                        viewModel.setValue(numericValue)
+                    }
                 }
                 item {
-                    TextField(
+                    DefaultTextFieldToReceiveValues(
                         value = description,
-                        onValueChange = {
-                            viewModel.setDescription(it)
-                        },
-                        modifier = Modifier.padding(vertical = 5.dp),
-                        label = {
-                            Text(
-                                text = "Descrição:",
-                                color = Color.Black
-                            )
-                        },
-                        shape = RoundedCornerShape(25.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White
-                        ),
+                        label = "Descrição:",
                         maxLines = 4
-                    )
+                    ) {
+                        viewModel.setDescription(it)
+                    }
                 }
                 item {
                     Column(
