@@ -45,6 +45,7 @@ import com.rogue.financesrogue.database.entities.PersonEntity
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultDatePicker
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultErrorDialog
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultHeaderAdd
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
 import com.rogue.financesrogue.viewmodel.ItemPurchasedViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -78,43 +79,16 @@ fun ItemPurchasedUI() {
 
     Scaffold(
         topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 30.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(
-                    onClick = {
-                        Nav.navController?.popBackStack()
-                    },
-                    modifier = Modifier.padding(10.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(50.dp)
-                    )
-                }
-                Text(
-                    text = "Compra única",
-                    fontSize = 35.sp,
-                    modifier = Modifier.padding(10.dp)
-                )
-                DefaultHelpIconWithTooltip(
-                    "Destinado a compras que ocorrem pontualmente em seu mês, " +
-                            "e não necessáriamente acontecerão sempre. \n" +
-                            "Podemos ter como exemplo: \n" +
-                            "* Compras de lanches \n" +
-                            "* Gastos em passeios \n" +
-                            "* Combustivel \n" +
-                            "* Um presente \n"
-                    ,
-                    modifier = Modifier.padding(10.dp)
-                )
-            }
+            DefaultHeaderAdd(
+                title = "Compra única",
+                explanationText = "Destinado a compras que ocorrem pontualmente em seu mês, " +
+                        "e não necessáriamente acontecerão sempre. \n" +
+                        "Podemos ter como exemplo: \n" +
+                        "* Compras de lanches \n" +
+                        "* Gastos em passeios \n" +
+                        "* Combustivel \n" +
+                        "* Um presente \n"
+            )
         },
         containerColor = Color.Gray
     ) { paddingValues ->
