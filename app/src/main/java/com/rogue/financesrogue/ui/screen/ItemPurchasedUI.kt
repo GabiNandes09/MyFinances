@@ -42,10 +42,13 @@ import com.rogue.financesrogue.R
 import com.rogue.financesrogue.database.entities.CategoryEntity
 import com.rogue.financesrogue.database.entities.PaymentWayEntity
 import com.rogue.financesrogue.database.entities.PersonEntity
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultCancelAndConfirmButtons
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultDatePicker
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultErrorDialog
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultHeaderAdd
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultTextFieldToReceiveValues
 import com.rogue.financesrogue.viewmodel.ItemPurchasedViewModel
 import org.koin.androidx.compose.koinViewModel
 import java.time.format.DateTimeFormatter
@@ -67,7 +70,11 @@ fun ItemPurchasedUI() {
 
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
-    if (hasError){
+    var instantValue by remember {
+        mutableStateOf(value.toString())
+    }
+
+    if (hasError) {
         DefaultErrorDialog(
             title = "Campos necessários",
             message = "É necessário preencher todos os campos",
@@ -78,43 +85,16 @@ fun ItemPurchasedUI() {
 
     Scaffold(
         topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 30.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(
-                    onClick = {
-                        Nav.navController?.popBackStack()
-                    },
-                    modifier = Modifier.padding(10.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(50.dp)
-                    )
-                }
-                Text(
-                    text = "Compra única",
-                    fontSize = 35.sp,
-                    modifier = Modifier.padding(10.dp)
-                )
-                DefaultHelpIconWithTooltip(
-                    "Destinado a compras que ocorrem pontualmente em seu mês, " +
-                            "e não necessáriamente acontecerão sempre. \n" +
-                            "Podemos ter como exemplo: \n" +
-                            "* Compras de lanches \n" +
-                            "* Gastos em passeios \n" +
-                            "* Combustivel \n" +
-                            "* Um presente \n"
-                    ,
-                    modifier = Modifier.padding(10.dp)
-                )
-            }
+            DefaultHeaderAdd(
+                title = "Compra única",
+                explanationText = "Destinado a compras que ocorrem pontualmente em seu mês, " +
+                        "e não necessáriamente acontecerão sempre. \n" +
+                        "Podemos ter como exemplo: \n" +
+                        "* Compras de lanches \n" +
+                        "* Gastos em passeios \n" +
+                        "* Combustivel \n" +
+                        "* Um presente \n"
+            )
         },
         containerColor = Color.Gray
     ) { paddingValues ->
@@ -148,68 +128,32 @@ fun ItemPurchasedUI() {
                                 viewModel.setCategory(it as CategoryEntity)
                             },
                             type = "categoria",
-                            onAdd = {description ->
+                            onAdd = { description ->
                                 viewModel.onAddCategory(description)
                             }
                         )
                     }
                 }
                 item {
-                    var instantValue by remember {
-                        mutableStateOf(value.toString())
-                    }
-                    TextField(
+                    DefaultTextFieldToReceiveValues(
                         value = "R$ $instantValue",
-                        onValueChange = {input ->
-                            val formatted = input.replace(Regex("[^0-9,.]"), "")
-                            instantValue = formatted
+                        label = "Valor:"
+                    ) { input ->
+                        val formatted = input.replace(Regex("[^0-9,.]"), "")
+                        instantValue = formatted
 
-                            val numericValue = formatted.replace(",", ".").toDoubleOrNull() ?: 0.0
-                            viewModel.setValue(numericValue)
-                        },
-                        modifier = Modifier
-                            .padding(vertical = 5.dp),
-                        label = {
-                            Text(
-                                text = "Valor:",
-                                color = Color.Black
-                            )
-                        },
-                        shape = RoundedCornerShape(25.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White
-                        ),
-                        singleLine = true,
-
-                        )
+                        val numericValue = formatted.replace(",", ".").toDoubleOrNull() ?: 0.0
+                        viewModel.setValue(numericValue)
+                    }
                 }
                 item {
-                    TextField(
+                    DefaultTextFieldToReceiveValues(
                         value = description,
-                        onValueChange = {
-                            viewModel.setDescription(it)
-                        },
-                        modifier = Modifier.padding(vertical = 5.dp),
-                        label = {
-                            Text(
-                                text = "Descrição:",
-                                color = Color.Black
-                            )
-                        },
-                        shape = RoundedCornerShape(25.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White
-                        ),
+                        label = "Descrição:",
                         maxLines = 4
-                    )
+                    ) {
+                        viewModel.setDescription(it)
+                    }
                 }
                 item {
                     Column(
@@ -261,31 +205,8 @@ fun ItemPurchasedUI() {
                 }
 
                 item {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(50.dp),
-                        modifier = Modifier.padding(top = 10.dp)
-                    ) {
-                        Button(
-                            onClick = { Nav.navController?.popBackStack() },
-                            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.Red)),
-                            modifier = Modifier.width(120.dp)
-                        ) {
-                            Text(
-                                text = "Cancelar",
-                                color = Color.White
-                            )
-                        }
-                        Button(
-                            onClick = { viewModel.saveItem() },
-                            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.Blue)),
-                            modifier = Modifier.width(120.dp)
-                        ) {
-                            Text(
-                                text = "Salvar",
-                                color = Color.White
-                            )
-                        }
+                    DefaultCancelAndConfirmButtons {
+                        viewModel.saveItem()
                     }
                 }
             }
