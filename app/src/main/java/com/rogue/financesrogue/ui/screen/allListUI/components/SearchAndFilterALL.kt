@@ -95,14 +95,14 @@ fun SearchAndFilterBar() {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Column {
-                        DefaultCheckBox(text = "Compras únicas")
-                        DefaultCheckBox(text = "Valores fixos")
-                        DefaultCheckBox(text = "Compras parceladas")
-                        DefaultCheckBox(text = "Valores a receber")
+                        DefaultCheckBox(text = "Compras únicas", {})
+                        DefaultCheckBox(text = "Valores fixos", {})
+                        DefaultCheckBox(text = "Compras parceladas", {})
+                        DefaultCheckBox(text = "Valores a receber", {})
                     }
                     Spacer(modifier = Modifier.width(5.dp))
                     Column {
-                        DefaultCheckBox(text = "Mês completo")
+                        DefaultCheckBox(text = "Mês completo", {})
                         if (true){
                             DefaultComboBox(unselected = "Ano...")
                             DefaultComboBox(unselected = "Mês...")

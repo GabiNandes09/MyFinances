@@ -13,7 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun DefaultCheckBox(text: String) {
+fun DefaultCheckBox(
+    text: String,
+    onCheckedChange: (Boolean) -> Unit
+) {
     var checked by remember {
         mutableStateOf(false)
     }
@@ -23,7 +26,10 @@ fun DefaultCheckBox(text: String) {
     ) {
         Checkbox(
             checked = checked,
-            onCheckedChange = {checked = !checked}
+            onCheckedChange = {
+                onCheckedChange(it)
+                checked = !checked
+            }
         )
         Text(text = text)
     }
@@ -32,5 +38,8 @@ fun DefaultCheckBox(text: String) {
 @Preview
 @Composable
 private fun DefaultCheckBoxPrev() {
-    DefaultCheckBox("Isso é um teste")
+    DefaultCheckBox(
+        text = "Isso é um teste",
+        onCheckedChange = {}
+        )
 }

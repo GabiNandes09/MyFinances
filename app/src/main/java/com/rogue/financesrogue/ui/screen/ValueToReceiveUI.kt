@@ -23,6 +23,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,12 +36,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rogue.financesrogue.Nav
 import com.rogue.financesrogue.R
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultCheckBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
 
 //v1 - 16/01/25
 @Composable
 fun ValuesToReceiveUI() {
+
+    var parcelEnable by remember {
+        mutableStateOf(true)
+    }
+
     Scaffold(
         topBar = {
             Row(
@@ -131,17 +141,11 @@ fun ValuesToReceiveUI() {
                         maxLines = 4
                     )
                 }
-                item{
-                    Column {
-                        Text(text = "Forma de pagamento:")
-                        DefaultComboBox(
-                            unselected = "Selecione..."
-                        )
-                    }
-                }
                 item {
+
                     TextField(
-                        value = "",
+                        value = if (parcelEnable) "" else "1",
+                        enabled = parcelEnable,
                         onValueChange = {},
                         modifier = Modifier.padding(bottom = 5.dp, top = 10.dp),
                         label = { Text(text = "Total de parcelas:") },
@@ -154,6 +158,14 @@ fun ValuesToReceiveUI() {
                             unfocusedContainerColor = Color.White
                         ),
                         singleLine = true
+                    )
+                }
+                item {
+                    DefaultCheckBox(
+                        text = "Pagamento único",
+                        onCheckedChange = { checked ->
+                            parcelEnable = !checked
+                        }
                     )
                 }
                 item {
