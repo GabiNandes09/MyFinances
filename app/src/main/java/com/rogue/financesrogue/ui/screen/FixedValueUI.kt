@@ -37,8 +37,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rogue.financesrogue.Nav
 import com.rogue.financesrogue.R
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultCancelAndConfirmButtons
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultCheckBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultHeaderAdd
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultTextFieldToReceiveValues
 
 //v1 - 16/01/25
 @Composable
@@ -46,49 +50,21 @@ fun FixedValuedUI() {
     Scaffold(
         containerColor = Color.Gray,
         topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 30.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(
-                    onClick = { Nav.navController?.popBackStack() },
-                    modifier = Modifier.padding(10.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(50.dp)
-                    )
-                }
-                DefaultHelpIconWithTooltip(
-                    "",
-                    modifier = Modifier.padding(10.dp)
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 30.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Valor fixo",
-                    fontSize = 35.sp,
-                    modifier = Modifier.padding(10.dp)
-                )
-            }
+            DefaultHeaderAdd(
+                title = "Valor fixo",
+                explanationText = "Valores que são cobrados todos os meses, " +
+                        "independentemente de compras," +
+                        "podendo ou não variar." +
+                        "\n \n Exemplo: Conta de água, luz, internet, Streamings, Academia."
+            )
+
         }
     ) { paddingValues ->
         Card(
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(10.dp)
-                .height(550.dp),
+                .height(600.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Color.LightGray
             )
@@ -101,126 +77,52 @@ fun FixedValuedUI() {
                 verticalArrangement = Arrangement.Top
             ) {
                 item {
-                    Column(
-                        modifier = Modifier.padding(bottom = 10.dp)
-                    ) {
-                        Text(text = "Categoria:")
-                        DefaultComboBox(
-                            unselected = "Selecione a categoria"
-                        )
-                    }
-                }
-                item {
-                    TextField(
-                        value = "",
-                        onValueChange = {},
-                        modifier = Modifier.padding(vertical = 5.dp),
-                        label = {
-                            Text(
-                                text = "Valor:",
-                                color = Color.Black
-                            )
-                        },
-                        shape = RoundedCornerShape(25.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White
-                        ),
-                        singleLine = true
+                    DefaultComboBox(
+                        title = "Categoria:",
+                        unselected = "Selecione a categoria"
                     )
                 }
                 item {
-                    TextField(
+                    DefaultTextFieldToReceiveValues(
                         value = "",
-                        onValueChange = {},
-                        modifier = Modifier.padding(vertical = 5.dp),
-                        label = {
-                            Text(
-                                text = "Descrição:",
-                                color = Color.Black
-                            )
-                        },
-                        shape = RoundedCornerShape(25.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White
-                        ),
+                        label = "Valor:"
+                    ) {
+
+                    }
+                }
+                item {
+                    DefaultTextFieldToReceiveValues(
+                        value = "",
+                        label = "Descrição:",
                         maxLines = 4
+                    ) {
+
+                    }
+                }
+                item {
+                    DefaultComboBox(
+                        title = "Forma de pagamento:",
+                        unselected = "Selecione..."
                     )
                 }
                 item {
-                    Column {
-                        Text(text = "Forma de pagamento:")
-                        DefaultComboBox(
-                            unselected = "Selecione..."
-                        )
-                    }
+                    DefaultComboBox(
+                        title = "Pagar para:",
+                        unselected = "Selecione..."
+                    )
                 }
                 item {
-                    Column(
-                        modifier = Modifier.padding(top = 10.dp)
-                    ) {
-                        Text(text = "Pagar para:")
-                        DefaultComboBox(
-                            unselected = "Selecione..."
-                        )
-                    }
+                    DefaultCheckBox(
+                        text = "Varíavel",
+                        onCheckedChange = {},
+                        explanationText = "Este valor existe todos os meses, " +
+                                "mas pode variar. " +
+                                "\n\nEx: Conta de água, Conta de Luz"
+                    )
                 }
                 item {
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Checkbox(
-                            checked = false,
-                            onCheckedChange = {},
-                            colors = CheckboxDefaults.colors(
-                                uncheckedColor = Color.Black,
-                                checkedColor = Color.Black,
-                                checkmarkColor = Color.Black
-                            )
-                        )
-                        Text(
-                            text = "Varíavel",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp
-                            )
-                        DefaultHelpIconWithTooltip(
-                            explanationText = "Este valor existe todos os meses, mas pode variar. Ex: Conta de água, Conta de Luz")
-                    }
-                }
-                item {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(50.dp),
-                        modifier = Modifier.padding(top = 10.dp)
-                    ) {
-                        Button(
-                            onClick = { /*TODO*/ },
-                            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.Red)),
-                            modifier = Modifier.width(120.dp)
-                        ) {
-                            Text(
-                                text = "Cancelar",
-                                color = Color.White
-                            )
-                        }
-                        Button(
-                            onClick = { /*TODO*/ },
-                            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.Blue)),
-                            modifier = Modifier.width(120.dp)
-                        ) {
-                            Text(
-                                text = "Salvar",
-                                color = Color.White
-                            )
-                        }
+                    DefaultCancelAndConfirmButtons {
+
                     }
                 }
             }

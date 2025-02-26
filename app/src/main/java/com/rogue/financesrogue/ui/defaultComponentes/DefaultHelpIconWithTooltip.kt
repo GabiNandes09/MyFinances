@@ -38,7 +38,6 @@ fun DefaultHelpIconWithTooltip(
     var showTooltip by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier) {
-        // Icone de interrogação
         IconButton(
             onClick = { showTooltip = !showTooltip },
             modifier = modifier
@@ -49,7 +48,7 @@ fun DefaultHelpIconWithTooltip(
             )
         }
 
-        // Popup com a explicação
+
         if (showTooltip) {
             Popup(
                 alignment = Alignment.TopCenter,
