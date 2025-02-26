@@ -23,12 +23,11 @@ import com.rogue.financesrogue.R
 fun DefaultErrorDialog(
     title: String,
     message: String,
-    confirmButtonClicked: () -> Unit,
-    onDismissRequest: () -> Unit
+    confirmButtonClicked: () -> Unit
 ) {
     AlertDialog(
         containerColor = Color.LightGray,
-        onDismissRequest = { onDismissRequest() },
+        onDismissRequest = { confirmButtonClicked() },
         confirmButton = {
             Row(
                 modifier = Modifier.width(350.dp),
@@ -79,7 +78,6 @@ private fun Prev() {
     DefaultErrorDialog(
         title = "Título",
         message = "Isso é um teste",
-        {},
         {}
     )
 }

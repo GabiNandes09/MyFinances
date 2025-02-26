@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.rogue.financesrogue.database.dao.CategoryDAO
 import com.rogue.financesrogue.database.entities.CategoryEntity
+import com.rogue.financesrogue.database.entities.FixedValueEntity
 import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
 import com.rogue.financesrogue.database.entities.ParcelValueEntity
 import com.rogue.financesrogue.database.entities.ValueToReceiveEntity
@@ -72,6 +73,13 @@ private suspend fun convertIntoItem(item: Any, categoryRepository: CategoryDAO):
                 description = item.description,
                 value = item.totalPrice,
                 category = categoryRepository.selectOneCategory(1) //todo pensar em o que colocar aqui
+            )
+        }
+        is FixedValueEntity -> {
+            return ItemAllList(
+                description = item.description,
+                value = item.price,
+                category = categoryRepository.selectOneCategory(item.idCategory)
             )
         }
     }

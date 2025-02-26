@@ -158,8 +158,7 @@ fun ValuesToReceiveUI() {
             DefaultErrorDialog(
                 title = "Algo está errado",
                 message = errorLog,
-                confirmButtonClicked = { viewModel.resetError() },
-                onDismissRequest = { viewModel.resetError() }
+                confirmButtonClicked = { viewModel.resetError() }
             )
         }
     }

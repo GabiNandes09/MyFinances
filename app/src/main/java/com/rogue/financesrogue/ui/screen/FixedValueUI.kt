@@ -49,6 +49,7 @@ import com.rogue.financesrogue.database.entities.PersonEntity
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultCancelAndConfirmButtons
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultCheckBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultErrorDialog
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHeaderAdd
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultTextFieldToReceiveValues
@@ -66,6 +67,9 @@ fun FixedValuedUI() {
     val paymentWay by viewModel.paymentWaySelected.collectAsState()
     val price by viewModel.price.collectAsState()
     val description by viewModel.description.collectAsState()
+
+    val hasError by viewModel.hasError.collectAsState()
+    val errorLog by viewModel.errorLog.collectAsState()
 
     var instantPrice by remember { mutableStateOf(price.toString()) }
 
@@ -165,11 +169,19 @@ fun FixedValuedUI() {
                 }
                 item {
                     DefaultCancelAndConfirmButtons {
-
+                        viewModel.saveFixedValue()
                     }
                 }
             }
         }
+    }
+
+    if (hasError){
+        DefaultErrorDialog(
+            title = "Algo está errado",
+            message = errorLog,
+            confirmButtonClicked = { viewModel.resetErrors() }
+        )
     }
 }
 

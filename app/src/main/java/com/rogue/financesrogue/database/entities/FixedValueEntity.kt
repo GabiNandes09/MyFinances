@@ -25,7 +25,7 @@ import androidx.room.PrimaryKey
 )
 data class FixedValueEntity(
     @PrimaryKey(autoGenerate = true)
-    val fixedValuesId: Int,
+    val fixedValuesId: Int? = null,
     val idCategory: Int,
     val price: Double,
     val idPaymentWay: Int,

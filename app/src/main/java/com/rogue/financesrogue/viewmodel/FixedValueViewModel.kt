@@ -3,17 +3,20 @@ package com.rogue.financesrogue.viewmodel
 import android.credentials.CredentialDescription
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rogue.financesrogue.Nav
 import com.rogue.financesrogue.database.dao.CategoryDAO
 import com.rogue.financesrogue.database.dao.FixedValueDAO
 import com.rogue.financesrogue.database.dao.PaymentWayDAO
 import com.rogue.financesrogue.database.dao.PersonDAO
 import com.rogue.financesrogue.database.entities.CategoryEntity
+import com.rogue.financesrogue.database.entities.FixedValueEntity
 import com.rogue.financesrogue.database.entities.PaymentWayEntity
 import com.rogue.financesrogue.database.entities.PersonEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FixedValueViewModel(
     private val fixedValueRepository: FixedValueDAO,
@@ -48,6 +51,12 @@ class FixedValueViewModel(
     private val _description = MutableStateFlow("")
     val description = _description.asStateFlow()
 
+    private val _hasError = MutableStateFlow(false)
+    val hasError = _hasError.asStateFlow()
+
+    private val _errorLog = MutableStateFlow("")
+    val errorLog = _errorLog.asStateFlow()
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             launch { loadCategory() }
@@ -56,63 +65,111 @@ class FixedValueViewModel(
         }
     }
 
-    private suspend fun loadCategory(){
-        categoryRepository.selectAllCategory().collect{categorylist ->
+    private suspend fun loadCategory() {
+        categoryRepository.selectAllCategory().collect { categorylist ->
             _categoryList.value = categorylist
         }
     }
 
-    private suspend fun loadPaymentWay(){
-        paymentWayRepository.selectAllPaymentWay().collect{list ->
+    private suspend fun loadPaymentWay() {
+        paymentWayRepository.selectAllPaymentWay().collect { list ->
             _paymentWayList.value = list
         }
     }
 
-    private suspend fun loadPerson(){
-        personRepository.selectAllPerson().collect{list ->
+    private suspend fun loadPerson() {
+        personRepository.selectAllPerson().collect { list ->
             _personList.value = list
         }
     }
 
-    fun setCategory(category: CategoryEntity){
+    fun setCategory(category: CategoryEntity) {
         _categorySelected.value = category
     }
 
-    fun setPaymentWay(paymentWay: PaymentWayEntity){
+    fun setPaymentWay(paymentWay: PaymentWayEntity) {
         _paymentWaySelected.value = paymentWay
     }
 
-    fun setPerson(person: PersonEntity){
+    fun setPerson(person: PersonEntity) {
         _personSelected.value = person
     }
 
-    fun setIsVariable(isVariable: Boolean){
+    fun setIsVariable(isVariable: Boolean) {
         _isVariable.value = isVariable
     }
 
-    fun setDescription(description: String){
+    fun setDescription(description: String) {
         _description.value = description
     }
 
-    fun setPrice(price: Double){
+    fun setPrice(price: Double) {
         _price.value = price
     }
 
-    fun onAddCategory(string: String){
+    fun onAddCategory(string: String) {
         viewModelScope.launch(Dispatchers.IO) {
             categoryRepository.insertCategory(CategoryEntity(category = string.uppercase()))
         }
     }
 
-    fun addPaymentWay(string: String){
+    fun addPaymentWay(string: String) {
         viewModelScope.launch(Dispatchers.IO) {
             paymentWayRepository.insertPaymentWay(PaymentWayEntity(paymentWay = string))
         }
     }
 
-    fun addPerson(string: String){
+    fun addPerson(string: String) {
         viewModelScope.launch(Dispatchers.IO) {
             personRepository.insertPerson(PersonEntity(person = string))
         }
+    }
+
+    fun resetErrors() {
+        _hasError.value = false
+        _errorLog.value = ""
+    }
+
+    fun saveFixedValue() {
+        if (_categorySelected.value == null ||
+            _price.value <= 0.0 ||
+            _description.value.isEmpty() ||
+            _paymentWaySelected.value == null
+        ) {
+            _errorLog.value = "Todos os campos devem ser preenchidos"
+            _hasError.value = true
+            return
+        }
+
+        val payForPerson = _paymentWaySelected.value!!.paymentWay.equals(
+            "Pessoa",
+            ignoreCase = true
+        )
+
+        if (payForPerson && _personSelected.value == null) {
+            _errorLog.value = "Selecione a pessoa referente ao pagamento"
+            _hasError.value = true
+            return
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val fixedValue = FixedValueEntity(
+                idCategory = _categorySelected.value!!.categoryId!!,
+                price = _price.value,
+                idPaymentWay = _paymentWaySelected.value!!.paymentWayId!!,
+                payForPerson = payForPerson,
+                variable = _isVariable.value,
+                description = _description.value,
+                idPerson = _personSelected.value?.personId
+            )
+
+            fixedValueRepository.insertFixedValue(fixedValue)
+
+            withContext(Dispatchers.Main){
+                Nav.navController?.popBackStack()
+            }
+        }
+
+
     }
 }

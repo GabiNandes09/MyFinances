@@ -25,7 +25,8 @@ val appModule = module {
     viewModel {
         AllListViewModel(
             itemRepository = get(),
-            valuesToReceiveRepository = get()
+            valuesToReceiveRepository = get(),
+            fixedValueRepository = get()
         )
     }
     viewModel {

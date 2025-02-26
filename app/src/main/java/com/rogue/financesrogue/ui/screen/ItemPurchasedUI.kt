@@ -59,8 +59,7 @@ fun ItemPurchasedUI() {
         DefaultErrorDialog(
             title = "Campos necessários",
             message = "É necessário preencher todos os campos",
-            confirmButtonClicked = { viewModel.errorOkay() },
-            onDismissRequest = { viewModel.errorOkay() }
+            confirmButtonClicked = { viewModel.errorOkay() }
         )
     }
 
