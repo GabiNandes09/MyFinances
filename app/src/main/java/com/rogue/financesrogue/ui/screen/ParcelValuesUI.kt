@@ -32,42 +32,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rogue.financesrogue.Nav
 import com.rogue.financesrogue.R
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultCancelAndConfirmButtons
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultHeaderAdd
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultTextFieldToReceiveValues
 
 //v1 - 16/01/25
 @Composable
 fun ParcelValuesdUI() {
     Scaffold(
         topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 30.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(
-                    onClick = { Nav.navController?.popBackStack() },
-                    modifier = Modifier.padding(10.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(50.dp)
-                    )
-                }
-                Text(
-                    text = "Compra parcelada",
-                    fontSize = 35.sp
-                )
-                DefaultHelpIconWithTooltip(
-                    "",
-                    modifier = Modifier
-                        .padding(10.dp)
-                )
-            }
+            DefaultHeaderAdd(
+                title = "Compra parcelada",
+                explanationText = "Compras parceladas, que serão cobradas todos os meses por x meses" +
+                        "\n\nExemplo: Móvel divído em 10x, Tênis divído em 6x"
+            )
         },
         containerColor = Color.Gray
     ) { paddingValues ->
@@ -88,109 +68,51 @@ fun ParcelValuesdUI() {
                 verticalArrangement = Arrangement.Top
             ) {
                 item {
-                    Column(
-                        modifier = Modifier.padding(bottom = 10.dp)
+                    DefaultComboBox(
+                        title = "Categoria:",
+                        unselected = "Selecione a categoria"
+                    )
+                }
+                item {
+                    DefaultTextFieldToReceiveValues(
+                        value = "",
+                        label = "Valor total:"
                     ) {
-                        Text(text = "Categoria:")
-                        DefaultComboBox(
-                            unselected = "Selecione a categoria"
-                        )
+
                     }
                 }
                 item {
-                    TextField(
+                    DefaultTextFieldToReceiveValues(
                         value = "",
-                        onValueChange = {},
-                        modifier = Modifier.padding(vertical = 5.dp),
-                        label = { Text(text = "Valor total:") },
-                        shape = RoundedCornerShape(25.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White
-                        ),
-                        singleLine = true
-                    )
+                        label = "Total de parcelas:"
+                    ) {
+
+                    }
                 }
                 item {
-                    TextField(
+                    DefaultTextFieldToReceiveValues(
                         value = "",
-                        onValueChange = {},
-                        modifier = Modifier.padding(vertical = 5.dp),
-                        label = { Text(text = "Total de parcelas:") },
-                        shape = RoundedCornerShape(25.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White
-                        ),
-                        singleLine = true
-                    )
-                }
-                item {
-                    TextField(
-                        value = "",
-                        onValueChange = {},
-                        modifier = Modifier.padding(vertical = 5.dp),
-                        label = { Text(text = "Descrição:") },
-                        shape = RoundedCornerShape(25.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent
-                        ),
-                        maxLines = 4
-                    )
+                        label = "Descrição:"
+                    ) {
+
+                    }
                 }
 
                 item{
-                    Column {
-                        Text(text = "Forma de pagamento:")
-                        DefaultComboBox(
-                            unselected = "Selecione..."
-                        )
-                    }
+                    DefaultComboBox(
+                        title = "Forma de pagamento:",
+                        unselected = "Selecione..."
+                    )
                 }
                 item {
-                    Column(
-                        modifier = Modifier.padding(top = 10.dp)
-                    ) {
-                        Text(text = "Pagar para:")
-                        DefaultComboBox(
-                            unselected = "Selecione..."
-                        )
-                    }
+                    DefaultComboBox(
+                        title = "Pagar para:",
+                        unselected = "Selecione..."
+                    )
                 }
                 item {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(50.dp),
-                        modifier = Modifier.padding(top = 10.dp)
-                    ) {
-                        Button(
-                            onClick = { /*TODO*/ },
-                            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.Red)),
-                            modifier = Modifier.width(120.dp)
-                        ) {
-                            Text(
-                                text = "Cancelar",
-                                color = Color.White
-                            )
-                        }
-                        Button(
-                            onClick = { /*TODO*/ },
-                            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.Blue)),
-                            modifier = Modifier.width(120.dp)
-                        ) {
-                            Text(
-                                text = "Salvar",
-                                color = Color.White
-                            )
-                        }
+                    DefaultCancelAndConfirmButtons {
+
                     }
                 }
             }

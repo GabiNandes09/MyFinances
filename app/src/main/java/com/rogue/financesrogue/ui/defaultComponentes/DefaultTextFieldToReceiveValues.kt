@@ -45,7 +45,8 @@ fun DefaultTextFieldToReceiveValues(
             disabledIndicatorColor = Color.Transparent,
             focusedContainerColor = Color.White,
             unfocusedContainerColor = Color.White,
-            focusedTextColor = Color.Black
+            focusedTextColor = Color.Black,
+            unfocusedTextColor = Color.Gray
         ),
         singleLine = true
     )
