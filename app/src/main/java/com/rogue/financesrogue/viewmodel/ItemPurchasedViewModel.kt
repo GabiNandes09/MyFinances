@@ -77,7 +77,6 @@ class ItemPurchasedViewModel(
 
     private suspend fun loadCategory() {
         categoryRepository.selectAllCategory().collect{categorylist ->
-            println("Categorias emitidas pelo Flow: ${categorylist.size}")
             _categoryList.value = categorylist
         }
     }

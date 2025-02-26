@@ -3,27 +3,13 @@ package com.rogue.financesrogue.ui.screen
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,12 +19,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.rogue.financesrogue.Nav
-import com.rogue.financesrogue.R
 import com.rogue.financesrogue.database.entities.CategoryEntity
 import com.rogue.financesrogue.database.entities.PaymentWayEntity
 import com.rogue.financesrogue.database.entities.PersonEntity
@@ -47,7 +29,6 @@ import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultDatePicker
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultErrorDialog
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHeaderAdd
-import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultTextFieldToReceiveValues
 import com.rogue.financesrogue.viewmodel.ItemPurchasedViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -78,8 +59,7 @@ fun ItemPurchasedUI() {
         DefaultErrorDialog(
             title = "Campos necessários",
             message = "É necessário preencher todos os campos",
-            confirmButtonClicked = { viewModel.errorOkay() },
-            onDismissRequest = { viewModel.errorOkay() }
+            confirmButtonClicked = { viewModel.errorOkay() }
         )
     }
 
@@ -116,23 +96,19 @@ fun ItemPurchasedUI() {
                 verticalArrangement = Arrangement.Top
             ) {
                 item {
-                    Column(
-                        modifier = Modifier.padding(bottom = 10.dp)
-                    ) {
-                        Text(text = "Categoria:")
-                        DefaultComboBox(
-                            canAdd = true,
-                            unselected = "Selecione a categoria",
-                            items = categoryList,
-                            onItemSelect = {
-                                viewModel.setCategory(it as CategoryEntity)
-                            },
-                            type = "categoria",
-                            onAdd = { description ->
-                                viewModel.onAddCategory(description)
-                            }
-                        )
-                    }
+                    DefaultComboBox(
+                        title = "Categoria:",
+                        canAdd = true,
+                        unselected = "Selecione a categoria",
+                        items = categoryList,
+                        onItemSelect = {
+                            viewModel.setCategory(it as CategoryEntity)
+                        },
+                        type = "categoria",
+                        onAdd = { description ->
+                            viewModel.onAddCategory(description)
+                        }
+                    )
                 }
                 item {
                     DefaultTextFieldToReceiveValues(
@@ -156,51 +132,44 @@ fun ItemPurchasedUI() {
                     }
                 }
                 item {
-                    Column(
-                        modifier = Modifier.padding(top = 5.dp, bottom = 10.dp)
-                    ) {
-                        DefaultDatePicker(date = date?.format(formatter)) {
-                            viewModel.setDate(it)
-                        }
+                    DefaultDatePicker(
+                        date = date?.format(formatter),
+                        modifier = Modifier.padding(top = 5.dp)
+                        ) {
+                        viewModel.setDate(it)
                     }
                 }
                 item {
-                    Column {
-                        Text(text = "Forma de pagamento:")
-                        DefaultComboBox(
-                            unselected = "Selecione...",
-                            items = paymentWayList,
-                            onItemSelect = {
-                                viewModel.setPaymentWay(it as PaymentWayEntity)
-                            },
-                            canAdd = true,
-                            type = "forma de pagamento",
-                            onAdd = {
-                                viewModel.addPaymentWay(it)
-                            }
-                        )
-                    }
+                    DefaultComboBox(
+                        title = "Forma de pagamento:",
+                        unselected = "Selecione...",
+                        items = paymentWayList,
+                        onItemSelect = {
+                            viewModel.setPaymentWay(it as PaymentWayEntity)
+                        },
+                        canAdd = true,
+                        type = "forma de pagamento",
+                        onAdd = {
+                            viewModel.addPaymentWay(it)
+                        }
+                    )
                 }
 
                 if (pw?.paymentWay.equals("Pessoa", ignoreCase = true)) {
                     item {
-                        Column(
-                            modifier = Modifier.padding(top = 10.dp)
-                        ) {
-                            Text(text = "Pagar para:")
-                            DefaultComboBox(
-                                items = personList,
-                                unselected = "Selecione...",
-                                onItemSelect = {
-                                    viewModel.setPerson(it as PersonEntity)
-                                },
-                                canAdd = true,
-                                type = "pessoa",
-                                onAdd = {
-                                    viewModel.addPerson(it)
-                                }
-                            )
-                        }
+                        DefaultComboBox(
+                            title = "Pagar para:",
+                            items = personList,
+                            unselected = "Selecione...",
+                            onItemSelect = {
+                                viewModel.setPerson(it as PersonEntity)
+                            },
+                            canAdd = true,
+                            type = "pessoa",
+                            onAdd = {
+                                viewModel.addPerson(it)
+                            }
+                        )
                     }
                 }
 

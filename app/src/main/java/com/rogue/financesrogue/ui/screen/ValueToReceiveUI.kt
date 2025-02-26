@@ -93,22 +93,18 @@ fun ValuesToReceiveUI() {
                 verticalArrangement = Arrangement.Top
             ) {
                 item {
-                    Column(
-                        modifier = Modifier.padding(bottom = 10.dp)
-                    ) {
-                        Text(text = "Receber de:")
-                        DefaultComboBox(
-                            unselected = "Selecione a pessoa...",
-                            items = personList,
-                            onItemSelect = { person ->
-                                viewModel.setPerson(person as PersonEntity)
-                            },
-                            canAdd = true,
-                            onAdd = { person ->
-                                viewModel.onAddPerson(person)
-                            }
-                        )
-                    }
+                    DefaultComboBox(
+                        title = "Receber de:",
+                        unselected = "Selecione a pessoa...",
+                        items = personList,
+                        onItemSelect = { person ->
+                            viewModel.setPerson(person as PersonEntity)
+                        },
+                        canAdd = true,
+                        onAdd = { person ->
+                            viewModel.onAddPerson(person)
+                        }
+                    )
                 }
                 item {
                     DefaultTextFieldToReceiveValues(
@@ -132,6 +128,7 @@ fun ValuesToReceiveUI() {
                 }
                 item {
                     DefaultComboBox(
+                        title = "Tipo: ",
                         unselected = "Selecione tipo...",
                         items = ValueType.entries,
                         onItemSelect = { viewModel.setType(it as ValueType) }
@@ -161,8 +158,7 @@ fun ValuesToReceiveUI() {
             DefaultErrorDialog(
                 title = "Algo está errado",
                 message = errorLog,
-                confirmButtonClicked = { viewModel.resetError() },
-                onDismissRequest = { viewModel.resetError() }
+                confirmButtonClicked = { viewModel.resetError() }
             )
         }
     }

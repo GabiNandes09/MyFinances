@@ -6,6 +6,8 @@ import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -20,8 +22,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.collectLatest
 import java.time.Instant
 import java.time.LocalDate
@@ -32,34 +37,41 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DefaultDatePicker(
+    modifier: Modifier = Modifier,
     date: String? = "",
     onDateSelected: (LocalDate) -> Unit
 ) {
     var openDatePicker by remember { mutableStateOf(false) }
     val state = rememberDatePickerState()
 
-    TextField(
-        readOnly = true,
-        value = date ?: "",
-        onValueChange = {},
-        label = { Text(text = "Data:") },
-        interactionSource = remember {
-            MutableInteractionSource()
-        }.also {
-            LaunchedEffect(key1 = it) {
-                it.interactions.collectLatest { interaction ->
-                    if (interaction is PressInteraction.Release) {
-                        openDatePicker = true
+    Column(
+        modifier = modifier
+    ) {
+        TextField(
+            modifier = Modifier
+                .clip(RoundedCornerShape(25.dp)),
+            readOnly = true,
+            value = date ?: "",
+            onValueChange = {},
+            label = { Text(text = "Data:") },
+            interactionSource = remember {
+                MutableInteractionSource()
+            }.also {
+                LaunchedEffect(key1 = it) {
+                    it.interactions.collectLatest { interaction ->
+                        if (interaction is PressInteraction.Release) {
+                            openDatePicker = true
+                        }
                     }
                 }
-            }
-        },
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.White,
-            unfocusedContainerColor = Color.White,
-            focusedTextColor = Color.Black
+            },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+                focusedTextColor = Color.Black
+            )
         )
-    )
+    }
 
     AnimatedVisibility(visible = openDatePicker) {
         DatePickerDialog(

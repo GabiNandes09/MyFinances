@@ -22,7 +22,7 @@ fun AllListUI() {
     val viewModel: AllListViewModel = koinViewModel()
     val itemPurchasedList by viewModel.itemPurchasedList.collectAsState()
     val valueToReceiveList by viewModel.valueToReceiveList.collectAsState()
-
+    val fixedValueList by viewModel.fixedValueList.collectAsState()
 
     Scaffold(
         containerColor = Color.Gray
@@ -39,6 +39,11 @@ fun AllListUI() {
                     }
                 }
                 valueToReceiveList.forEach { item ->
+                    item{
+                        ItemAllList(item = item)
+                    }
+                }
+                fixedValueList.forEach { item ->
                     item{
                         ItemAllList(item = item)
                     }
