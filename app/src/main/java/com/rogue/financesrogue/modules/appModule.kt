@@ -2,6 +2,7 @@ package com.rogue.financesrogue.modules
 
 import com.rogue.financesrogue.database.MyFinancesDatabase
 import com.rogue.financesrogue.viewmodel.AllListViewModel
+import com.rogue.financesrogue.viewmodel.FixedValueViewModel
 import com.rogue.financesrogue.viewmodel.ItemPurchasedViewModel
 import com.rogue.financesrogue.viewmodel.MainPageViewModel
 import com.rogue.financesrogue.viewmodel.ValueToReceiveViewModel
@@ -33,6 +34,14 @@ val appModule = module {
             valueToReceiveRepository = get()
         )
     }
+    viewModel {
+        FixedValueViewModel(
+            fixedValueRepository = get(),
+            categoryRepository = get(),
+            paymentWayRepository = get(),
+            personRepository = get()
+        )
+    }
 
 }
 
@@ -45,4 +54,5 @@ val storageModule = module {
     factory {get<MyFinancesDatabase>().CategoryDAO()}
     factory {get<MyFinancesDatabase>().PersonDAO()}
     factory { get<MyFinancesDatabase>().ValueToReceiveDAO() }
+    factory { get<MyFinancesDatabase>().FixedValueDAO() }
 }
