@@ -63,7 +63,10 @@ fun CreditCardUI() {
             unselected = "Selecione a marca",
             modifier = Modifier.padding(5.dp),
             canAdd = true,
-            type = "marca"
+            type = "marca",
+            title = "",
+            items = emptyList(),
+            onItemSelect = {}
         )
         TextField(
             value = "",

@@ -35,7 +35,7 @@ fun DefaultTextFieldToReceiveValues(
         label = {
             Text(
                 text = label,
-                color = Color.Black
+                color = Color.LightGray
             )
         },
         shape = RoundedCornerShape(25.dp),
@@ -44,7 +44,8 @@ fun DefaultTextFieldToReceiveValues(
             focusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
             focusedContainerColor = Color.White,
-            unfocusedContainerColor = Color.White
+            unfocusedContainerColor = Color.White,
+            focusedTextColor = Color.Black
         ),
         singleLine = true
     )
