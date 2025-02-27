@@ -149,7 +149,7 @@ fun ItemPurchasedUI() {
                         canAdd = true,
                         type = "forma de pagamento",
                         onAdd = {
-                            viewModel.addPaymentWay(it)
+                            viewModel.onAddPaymentWay(it)
                         }
                     )
                 }
@@ -166,7 +166,7 @@ fun ItemPurchasedUI() {
                             canAdd = true,
                             type = "pessoa",
                             onAdd = {
-                                viewModel.addPerson(it)
+                                viewModel.onAddPerson(it)
                             }
                         )
                     }

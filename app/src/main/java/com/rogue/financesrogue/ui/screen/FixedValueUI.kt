@@ -118,7 +118,7 @@ fun FixedValuedUI() {
                         items = paymentWayList,
                         onItemSelect = { viewModel.setPaymentWay(it as PaymentWayEntity) },
                         canAdd = true,
-                        onAdd = { viewModel.addPaymentWay(it) }
+                        onAdd = { viewModel.onAddPaymentWay(it) }
                     )
                 }
                 if (paymentWay?.paymentWay.equals("Pessoa", ignoreCase = true)) {
@@ -129,7 +129,7 @@ fun FixedValuedUI() {
                             items = personList,
                             onItemSelect = { viewModel.setPerson(it as PersonEntity) },
                             canAdd = true,
-                            onAdd = { viewModel.addPerson(it) }
+                            onAdd = { viewModel.onAddPerson(it) }
                         )
                     }
                 }

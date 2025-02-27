@@ -1,6 +1,5 @@
 package com.rogue.financesrogue.viewmodel
 
-import android.credentials.CredentialDescription
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rogue.financesrogue.Nav
@@ -108,18 +107,24 @@ class FixedValueViewModel(
     }
 
     fun onAddCategory(string: String) {
+        if (_categoryList.value.find { it.category.equals(string, ignoreCase = true) } != null) return
+
         viewModelScope.launch(Dispatchers.IO) {
             categoryRepository.insertCategory(CategoryEntity(category = string.uppercase()))
         }
     }
 
-    fun addPaymentWay(string: String) {
+    fun onAddPaymentWay(string: String) {
+        if (_paymentWayList.value.find { it.paymentWay.equals(string, ignoreCase = true) } != null) return
+
         viewModelScope.launch(Dispatchers.IO) {
             paymentWayRepository.insertPaymentWay(PaymentWayEntity(paymentWay = string))
         }
     }
 
-    fun addPerson(string: String) {
+    fun onAddPerson(string: String) {
+        if (_personList.value.find { it.person.equals(string, ignoreCase = true) } != null) return
+
         viewModelScope.launch(Dispatchers.IO) {
             personRepository.insertPerson(PersonEntity(person = string))
         }
