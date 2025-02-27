@@ -47,7 +47,7 @@ val appModule = module {
     }
     viewModel {
         ParcelValueViewModel(
-            parvelValueRepository = get(),
+            parcelValueRepository = get(),
             categoryRepository = get(),
             personRepository = get()
         )
