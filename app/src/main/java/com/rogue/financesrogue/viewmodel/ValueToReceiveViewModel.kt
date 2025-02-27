@@ -72,12 +72,11 @@ class ValueToReceiveViewModel(
         _errorLog.value = ""
     }
 
-    fun onAddPerson(person: String) {
-        val exists = _personList.value.find { it.person.equals(person, ignoreCase = true) }
-        if (exists == null) {
-            viewModelScope.launch(Dispatchers.IO) {
-                personRepository.insertPerson(PersonEntity(person = person))
-            }
+    fun onAddPerson(string: String){
+        if (_personList.value.find { it.person.equals(string, ignoreCase = true) } != null) return
+
+        viewModelScope.launch(Dispatchers.IO) {
+            personRepository.insertPerson(PersonEntity(person = string))
         }
     }
 

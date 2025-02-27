@@ -14,7 +14,6 @@ import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
 import com.rogue.financesrogue.database.entities.PaymentWayEntity
 import com.rogue.financesrogue.database.entities.PersonEntity
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -153,18 +152,24 @@ class ItemPurchasedViewModel(
     }
 
     fun onAddCategory(string: String){
+        if (_categoryList.value.find { it.category.equals(string, ignoreCase = true) } != null) return
+
         viewModelScope.launch(Dispatchers.IO) {
             categoryRepository.insertCategory(CategoryEntity(category = string.uppercase()))
         }
     }
 
-    fun addPaymentWay(string: String){
+    fun onAddPaymentWay(string: String){
+        if (_paymentWayList.value.find { it.paymentWay.equals(string, ignoreCase = true) } != null) return
+
         viewModelScope.launch(Dispatchers.IO) {
             paymentWayRepository.insertPaymentWay(PaymentWayEntity(paymentWay = string))
         }
     }
 
-    fun addPerson(string: String){
+    fun onAddPerson(string: String){
+        if (_personList.value.find { it.person.equals(string, ignoreCase = true) } != null) return
+
         viewModelScope.launch(Dispatchers.IO) {
             personRepository.insertPerson(PersonEntity(person = string))
         }

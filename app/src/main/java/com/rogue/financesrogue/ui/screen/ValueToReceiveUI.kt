@@ -35,16 +35,13 @@ fun ValuesToReceiveUI() {
 
     val viewModel: ValueToReceiveViewModel = koinViewModel()
     val personList by viewModel.personList.collectAsState()
-    val price by viewModel.price.collectAsState()
     val description by viewModel.description.collectAsState()
     val parcels by viewModel.parcels.collectAsState()
     val type by viewModel.type.collectAsState()
     val hasError by viewModel.hasError.collectAsState()
     val errorLog by viewModel.errorLog.collectAsState()
 
-    var instantPrice by remember {
-        mutableStateOf(price.toString())
-    }
+    var instantPrice by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -89,7 +86,8 @@ fun ValuesToReceiveUI() {
                 item {
                     DefaultTextFieldToReceiveValues(
                         value = "R$ $instantPrice",
-                        label = "Valor Total:"
+                        label = "Valor Total:",
+                        onlyNumbers = true
                     ) { input ->
                         val formatted = input.replace(Regex("[^0-9,.]"), "")
                         instantPrice = formatted

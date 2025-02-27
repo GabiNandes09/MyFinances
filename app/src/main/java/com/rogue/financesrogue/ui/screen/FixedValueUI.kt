@@ -46,7 +46,7 @@ fun FixedValuedUI() {
     val hasError by viewModel.hasError.collectAsState()
     val errorLog by viewModel.errorLog.collectAsState()
 
-    var instantPrice by remember { mutableStateOf(price.toString()) }
+    var instantPrice by remember { mutableStateOf("") }
 
     Scaffold(
         containerColor = Color.Gray,
@@ -92,7 +92,8 @@ fun FixedValuedUI() {
                 item {
                     DefaultTextFieldToReceiveValues(
                         value = "R$ $instantPrice",
-                        label = "Valor:"
+                        label = "Valor:",
+                        onlyNumbers = true
                     ) { input ->
                         val formatted = input.replace(Regex("[^0-9,.]"), "")
                         instantPrice = formatted
@@ -117,7 +118,7 @@ fun FixedValuedUI() {
                         items = paymentWayList,
                         onItemSelect = { viewModel.setPaymentWay(it as PaymentWayEntity) },
                         canAdd = true,
-                        onAdd = { viewModel.addPaymentWay(it) }
+                        onAdd = { viewModel.onAddPaymentWay(it) }
                     )
                 }
                 if (paymentWay?.paymentWay.equals("Pessoa", ignoreCase = true)) {
@@ -128,7 +129,7 @@ fun FixedValuedUI() {
                             items = personList,
                             onItemSelect = { viewModel.setPerson(it as PersonEntity) },
                             canAdd = true,
-                            onAdd = { viewModel.addPerson(it) }
+                            onAdd = { viewModel.onAddPerson(it) }
                         )
                     }
                 }
