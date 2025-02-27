@@ -37,10 +37,14 @@ import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHeaderAdd
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHelpIconWithTooltip
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultTextFieldToReceiveValues
+import com.rogue.financesrogue.viewmodel.ParcelValueViewModel
+import org.koin.androidx.compose.koinViewModel
 
 //v1 - 16/01/25
 @Composable
 fun ParcelValuesdUI() {
+    val viewModel: ParcelValueViewModel = koinViewModel()
+
     Scaffold(
         topBar = {
             DefaultHeaderAdd(

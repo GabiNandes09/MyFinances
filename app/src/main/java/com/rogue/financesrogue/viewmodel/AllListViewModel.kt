@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rogue.financesrogue.database.dao.FixedValueDAO
 import com.rogue.financesrogue.database.dao.ItemPurchasedDAO
+import com.rogue.financesrogue.database.dao.ParcelValuesDAO
 import com.rogue.financesrogue.database.dao.ValueToReceiveDAO
 import com.rogue.financesrogue.database.entities.FixedValueEntity
 import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
@@ -16,7 +17,8 @@ import kotlinx.coroutines.launch
 class AllListViewModel(
     private val itemRepository: ItemPurchasedDAO,
     private val valuesToReceiveRepository: ValueToReceiveDAO,
-    private val fixedValueRepository: FixedValueDAO
+    private val fixedValueRepository: FixedValueDAO,
+    private val parcelValuesRepository: ParcelValuesDAO
 ) : ViewModel() {
 
     private val _itemPurchasedList = MutableStateFlow<List<ItemPurchasedEntity>>(emptyList())
