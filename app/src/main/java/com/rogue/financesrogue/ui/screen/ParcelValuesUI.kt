@@ -24,6 +24,7 @@ import com.rogue.financesrogue.database.entities.PersonEntity
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultCancelAndConfirmButtons
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultCheckBox
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultComboBox
+import com.rogue.financesrogue.ui.defaultComponentes.DefaultErrorDialog
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultHeaderAdd
 import com.rogue.financesrogue.ui.defaultComponentes.DefaultTextFieldToReceiveValues
 import com.rogue.financesrogue.viewmodel.ParcelValueViewModel
@@ -37,12 +38,16 @@ fun ParcelValuesdUI() {
     val categoryList by viewModel.categoryList.collectAsState()
     val personList by viewModel.personList.collectAsState()
 
-    val price by viewModel.price.collectAsState()
+    val totalPrice by viewModel.totalPrice.collectAsState()
     val description by viewModel.description.collectAsState()
     val payForPerson by viewModel.payForPerson.collectAsState()
+    val parcelprice by viewModel.parcelPrice.collectAsState()
 
-    var instantPrice by remember { mutableStateOf(price.toString()) }
+    var instantPrice by remember { mutableStateOf("") }
     var instantParcels by remember { mutableStateOf("") }
+
+    val hasError by viewModel.hasError.collectAsState()
+    val errorLog by viewModel.errorLog.collectAsState()
 
     Scaffold(
         topBar = {
@@ -104,6 +109,13 @@ fun ParcelValuesdUI() {
                 }
                 item {
                     DefaultTextFieldToReceiveValues(
+                        value = if (instantParcels.isEmpty() || totalPrice <= 0) "" else "R$ %.2f".format(parcelprice),
+                        label = "Valor da parcela:",
+                        readOnly = true
+                    ) {}
+                }
+                item {
+                    DefaultTextFieldToReceiveValues(
                         value = description,
                         label = "Descrição:"
                     ) {
@@ -135,6 +147,15 @@ fun ParcelValuesdUI() {
                     }
                 }
             }
+        }
+    }
+
+    if (hasError){
+        DefaultErrorDialog(
+            title = "Algo está errado",
+            message = errorLog
+        ) {
+            viewModel.resetErrors()
         }
     }
 }

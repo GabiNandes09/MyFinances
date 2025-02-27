@@ -22,10 +22,12 @@ fun DefaultTextFieldToReceiveValues(
     label: String,
     enable: Boolean = true,
     maxLines: Int = 1,
+    readOnly: Boolean = false,
     onValueChange: (String) -> Unit
 ) {
     TextField(
         value = value,
+        readOnly = readOnly,
         onValueChange = {
             onValueChange(it)
         },

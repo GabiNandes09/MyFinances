@@ -2,15 +2,18 @@ package com.rogue.financesrogue.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rogue.financesrogue.Nav
 import com.rogue.financesrogue.database.dao.CategoryDAO
 import com.rogue.financesrogue.database.dao.ParcelValuesDAO
 import com.rogue.financesrogue.database.dao.PersonDAO
 import com.rogue.financesrogue.database.entities.CategoryEntity
+import com.rogue.financesrogue.database.entities.ParcelValueEntity
 import com.rogue.financesrogue.database.entities.PersonEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ParcelValueViewModel(
     private val parcelValueRepository: ParcelValuesDAO,
@@ -23,11 +26,14 @@ class ParcelValueViewModel(
     private val _personList = MutableStateFlow<List<PersonEntity>>(emptyList())
     val personList = _personList.asStateFlow()
 
-    private val _price = MutableStateFlow(0.0)
-    val price = _price.asStateFlow()
+    private val _totalPrice = MutableStateFlow(0.0)
+    val totalPrice = _totalPrice.asStateFlow()
 
     private val _parcels = MutableStateFlow(0)
     val parcels = _parcels.asStateFlow()
+
+    private val _parcelPrice = MutableStateFlow(0.0)
+    val parcelPrice = _parcelPrice.asStateFlow()
 
     private val _description = MutableStateFlow("")
     val description = _description.asStateFlow()
@@ -36,10 +42,14 @@ class ParcelValueViewModel(
     val payForPerson = _payForPerson.asStateFlow()
 
     private val _categorySelected = MutableStateFlow<CategoryEntity?>(null)
-    val categorySelected = _categorySelected.asStateFlow()
 
     private val _personSelected = MutableStateFlow<PersonEntity?>(null)
-    val personSelected = _personSelected.asStateFlow()
+
+    private val _hasError = MutableStateFlow(false)
+    val hasError = _hasError.asStateFlow()
+
+    private val _errorLog = MutableStateFlow("")
+    val errorLog = _errorLog.asStateFlow()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -61,11 +71,13 @@ class ParcelValueViewModel(
     }
 
     fun setPrice(price: Double) {
-        _price.value = price
+        _totalPrice.value = price
+        _parcelPrice.value = (price/_parcels.value)
     }
 
     fun setParcels(parcels: Int) {
         _parcels.value = parcels
+        _parcelPrice.value = _totalPrice.value/parcels
     }
 
     fun setDescription(description: String) {
@@ -85,6 +97,35 @@ class ParcelValueViewModel(
     }
 
     fun saveParcelValue() {
+        if (_categorySelected.value == null ||
+            _totalPrice.value <= 0.0 ||
+            _parcels.value <= 0 ||
+            _description.value.isEmpty() || (
+                    _payForPerson.value && _personSelected.value == null
+                    )
+            ){
+            _errorLog.value = "Todos os campos devem ser preenchidos"
+            _hasError.value = true
+            return
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val parcelValue = ParcelValueEntity(
+                totalValue = _totalPrice.value,
+                idCategory = _categorySelected.value?.categoryId!!,
+                parcels = _parcels.value,
+                parcelPrice = _parcelPrice.value,
+                description = _description.value,
+                payForPerson = _payForPerson.value,
+                idPerson = _personSelected.value?.personId
+            )
+
+            parcelValueRepository.inserParcelValue(parcelValue)
+
+            withContext(Dispatchers.Main){
+                Nav.navController?.popBackStack()
+            }
+        }
 
     }
 
@@ -102,5 +143,10 @@ class ParcelValueViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             personRepository.insertPerson(PersonEntity(person = string))
         }
+    }
+
+    fun resetErrors(){
+        _hasError.value = false
+        _errorLog.value = ""
     }
 }
