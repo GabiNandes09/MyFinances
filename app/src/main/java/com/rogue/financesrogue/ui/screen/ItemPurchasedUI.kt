@@ -51,9 +51,7 @@ fun ItemPurchasedUI() {
 
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
-    var instantValue by remember {
-        mutableStateOf(value.toString())
-    }
+    var instantValue by remember { mutableStateOf("") }
 
     if (hasError) {
         DefaultErrorDialog(
@@ -113,7 +111,8 @@ fun ItemPurchasedUI() {
                 item {
                     DefaultTextFieldToReceiveValues(
                         value = "R$ $instantValue",
-                        label = "Valor:"
+                        label = "Valor:",
+                        onlyNumbers = true
                     ) { input ->
                         val formatted = input.replace(Regex("[^0-9,.]"), "")
                         instantValue = formatted
