@@ -20,10 +20,6 @@ import com.rogue.financesrogue.database.entities.FixedValueEntity
 import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
 import com.rogue.financesrogue.database.entities.ParcelValueEntity
 import com.rogue.financesrogue.database.entities.ValueToReceiveEntity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.compose.koinInject
 
 @Composable
@@ -79,6 +75,13 @@ private suspend fun convertIntoItem(item: Any, categoryRepository: CategoryDAO):
             return ItemAllList(
                 description = item.description,
                 value = item.price,
+                category = categoryRepository.selectOneCategory(item.idCategory)
+            )
+        }
+        is ParcelValueEntity -> {
+            return ItemAllList(
+                description = item.description,
+                value = item.parcelPrice,
                 category = categoryRepository.selectOneCategory(item.idCategory)
             )
         }

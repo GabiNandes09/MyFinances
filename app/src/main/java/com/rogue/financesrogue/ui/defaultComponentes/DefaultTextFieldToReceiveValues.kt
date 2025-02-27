@@ -22,10 +22,12 @@ fun DefaultTextFieldToReceiveValues(
     label: String,
     enable: Boolean = true,
     maxLines: Int = 1,
+    readOnly: Boolean = false,
     onValueChange: (String) -> Unit
 ) {
     TextField(
         value = value,
+        readOnly = readOnly,
         onValueChange = {
             onValueChange(it)
         },
@@ -45,7 +47,8 @@ fun DefaultTextFieldToReceiveValues(
             disabledIndicatorColor = Color.Transparent,
             focusedContainerColor = Color.White,
             unfocusedContainerColor = Color.White,
-            focusedTextColor = Color.Black
+            focusedTextColor = Color.Black,
+            unfocusedTextColor = Color.Gray
         ),
         singleLine = true
     )

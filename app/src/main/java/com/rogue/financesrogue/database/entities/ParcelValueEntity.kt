@@ -20,10 +20,11 @@ import androidx.room.PrimaryKey
 )
 data class ParcelValueEntity(
     @PrimaryKey(autoGenerate = true)
-    val parcelValueId: Int,
+    val parcelValueId: Int? = null,
     val totalValue: Double,
-    val idCategory: Int,
     val parcels: Int,
+    val parcelPrice: Double,
+    val idCategory: Int,
     val description: String,
     val payForPerson: Boolean,
     val idPerson: Int?

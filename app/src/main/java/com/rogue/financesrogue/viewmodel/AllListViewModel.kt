@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rogue.financesrogue.database.dao.FixedValueDAO
 import com.rogue.financesrogue.database.dao.ItemPurchasedDAO
+import com.rogue.financesrogue.database.dao.ParcelValuesDAO
 import com.rogue.financesrogue.database.dao.ValueToReceiveDAO
 import com.rogue.financesrogue.database.entities.FixedValueEntity
 import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
+import com.rogue.financesrogue.database.entities.ParcelValueEntity
 import com.rogue.financesrogue.database.entities.ValueToReceiveEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +18,8 @@ import kotlinx.coroutines.launch
 class AllListViewModel(
     private val itemRepository: ItemPurchasedDAO,
     private val valuesToReceiveRepository: ValueToReceiveDAO,
-    private val fixedValueRepository: FixedValueDAO
+    private val fixedValueRepository: FixedValueDAO,
+    private val parcelValuesRepository: ParcelValuesDAO
 ) : ViewModel() {
 
     private val _itemPurchasedList = MutableStateFlow<List<ItemPurchasedEntity>>(emptyList())
@@ -28,11 +31,15 @@ class AllListViewModel(
     private val _fixedValueList = MutableStateFlow<List<FixedValueEntity>>(emptyList())
     val fixedValueList = _fixedValueList.asStateFlow()
 
+    private val _parcelValuesList = MutableStateFlow<List<ParcelValueEntity>>(emptyList())
+    val parcelValuesList = _parcelValuesList.asStateFlow()
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             launch { loadItens() }
             launch { loadValuesToReceive() }
             launch { loadFixedValues() }
+            launch { loadParcelValues() }
         }
     }
 
@@ -51,6 +58,12 @@ class AllListViewModel(
     private suspend fun loadFixedValues(){
         fixedValueRepository.selectAllFixedValue().collect{list ->
             _fixedValueList.value = list
+        }
+    }
+
+    private suspend fun loadParcelValues(){
+        parcelValuesRepository.selectAllParcelValue().collect{list ->
+            _parcelValuesList.value = list
         }
     }
 }
