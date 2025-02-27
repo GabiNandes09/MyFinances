@@ -23,6 +23,7 @@ fun AllListUI() {
     val itemPurchasedList by viewModel.itemPurchasedList.collectAsState()
     val valueToReceiveList by viewModel.valueToReceiveList.collectAsState()
     val fixedValueList by viewModel.fixedValueList.collectAsState()
+    val parcelValueList by viewModel.parcelValuesList.collectAsState()
 
     Scaffold(
         containerColor = Color.Gray
@@ -33,27 +34,28 @@ fun AllListUI() {
             TotalRow()
             SearchAndFilterBar()
             LazyColumn {
-                itemPurchasedList.forEach {item ->
+                itemPurchasedList.forEach { item ->
                     item {
                         ItemAllList(item)
                     }
                 }
                 valueToReceiveList.forEach { item ->
-                    item{
+                    item {
                         ItemAllList(item = item)
                     }
                 }
                 fixedValueList.forEach { item ->
-                    item{
+                    item {
                         ItemAllList(item = item)
                     }
+                }
+                parcelValueList.forEach { item ->
+                    item { ItemAllList(item = item) }
                 }
             }
         }
     }
 }
-
-
 
 
 @Preview

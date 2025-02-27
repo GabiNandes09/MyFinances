@@ -18,6 +18,7 @@ import com.rogue.financesrogue.database.dao.CategoryDAO
 import com.rogue.financesrogue.database.entities.CategoryEntity
 import com.rogue.financesrogue.database.entities.FixedValueEntity
 import com.rogue.financesrogue.database.entities.ItemPurchasedEntity
+import com.rogue.financesrogue.database.entities.ParcelValueEntity
 import com.rogue.financesrogue.database.entities.ValueToReceiveEntity
 import org.koin.compose.koinInject
 
@@ -74,6 +75,13 @@ private suspend fun convertIntoItem(item: Any, categoryRepository: CategoryDAO):
             return ItemAllList(
                 description = item.description,
                 value = item.price,
+                category = categoryRepository.selectOneCategory(item.idCategory)
+            )
+        }
+        is ParcelValueEntity -> {
+            return ItemAllList(
+                description = item.description,
+                value = item.parcelPrice,
                 category = categoryRepository.selectOneCategory(item.idCategory)
             )
         }
